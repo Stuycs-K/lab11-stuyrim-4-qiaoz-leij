@@ -20,3 +20,33 @@ Make a clear list of features that work/dont work
 
 replace this with your documentation for your two Adventurer subclasses. If you modify or replace the provided CodeWarrior class, please provide documentation for that as well.
 
+## Monk
+
+Actions
+
+| Type | Name | Description |
+| :----| :--- | :---------- |
+| Bludgeoning | Strike | |
+| Bludgeoning | Flurry of Blows | |
+| Buff | Patient Defense| |
+
+## Bard
+
+Actions
+
+| Type | Name | Description |
+| :----| :--- | :---------- |
+| Buff | Bardic Inspiration | |
+| Debuff | Cutting Insult | |
+| Heal | Panacea | |
+
+
+## Sorcerer
+
+Actions
+
+| Type | Name | Description |
+| :----| :--- | :---------- |
+| Elemental | Chromatic Orb | |
+| Buff | Cutting Insult | |
+| Heal | Panacea | |
