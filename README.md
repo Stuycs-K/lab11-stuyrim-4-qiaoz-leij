@@ -24,11 +24,11 @@ replace this with your documentation for your two Adventurer subclasses. If you 
 
 Actions
 
-| Type | Name | Description |
-| :----| :--- | :---------- |
-| Bludgeoning | Strike | |
-| Bludgeoning | Flurry of Blows | |
-| Buff | Patient Defense| |
+| Category       | Name            | Action                      | Description                                              |
+| :------------- | :-------------- | :-------------------------- | :------------------------------------------------------- |
+| Attack         | Strike          | Deals 1d8 Blugeoning damage | The Monk punches someone                                 |
+| Special Attack | Flurry of Blows | Deals 3d8 Blugeoning damage | The Monk strikes someone three times in quick succession |
+| Self Buff      | Patient Defense | Spends 1 Ki Point to take the Dodge Action, which gives any attacker disadvantage on their next attack | The Monk patiently awaits for any attacks |
 
 ## Bard
 
