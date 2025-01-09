@@ -24,29 +24,29 @@ replace this with your documentation for your two Adventurer subclasses. If you 
 
 Actions
 
-| Category       | Name            | Action                      | Description                                              |
-| :------------- | :-------------- | :-------------------------- | :------------------------------------------------------- |
-| Attack         | Strike          | Deals 1d8 Blugeoning damage | The Monk punches someone                                 |
-| Special Attack | Flurry of Blows | Deals 3d8 Blugeoning damage | The Monk strikes someone three times in quick succession |
-| Self Buff      | Patient Defense | Spends 1 Ki Point to take the Dodge Action, which gives any attacker disadvantage on their next attack | The Monk patiently awaits for any attacks |
+| Category       | Name            | Action | Description |
+| :------------- | :-------------- | :----- | :---------- |
+| Attack         | Strike          | Deals 1d8 Blugeoning Damage, 50% chance of restoring a Ki Point | The Monk punches someone |
+| Special Attack | Flurry of Blows | Spends 1 Ki Point, Deals 3d8 Blugeoning Damage | The Monk strikes someone three times in quick succession |
+| Support        | Patient Defense | Spends 1 Ki Point, Gives attackers disadvantage for one turn | The Monk prepares for any attacks |
 
 ## Bard
 
 Actions
 
-| Type | Name | Description |
-| :----| :--- | :---------- |
-| Buff | Bardic Inspiration | |
-| Debuff | Cutting Insult | |
-| Heal | Panacea | |
+| Category       | Name               | Action | Description |
+| :------------- | :----------------- | :----- | :---------- |
+| Attack         | Cutting Insult     | Deals 1d8 Physic Damage, Gives disadvantage on the next attack roll | The Bard mocks a enemy |
+| Special Attack | Dissonant Whispers | Spends 1 Spell Slot, Deals 3d6 Physic Damage | The Bard makes an enemy hear strange whispers |
+| Support        | Bardic Inspiration | Spends 1 Spell Slot, Grants advantage for one turn | The Bard inspires an ally |
 
 
 ## Sorcerer
 
 Actions
 
-| Type | Name | Description |
-| :----| :--- | :---------- |
-| Elemental | Chromatic Orb | |
-| Buff | Cutting Insult | |
-| Heal | Panacea | |
+| Category       | Name          | Action | Description |
+| :------------- | :------------ | :----- | :---------- |
+| Attack         | Chromatic Orb | Deals 2d8 damage of a random elemental type (cold, fire, lightning) | The Sorcerer hurls a ball of elemental magic |
+| Special Attack | Fireball      | Spends 2 Sorcerer Points, Deals 1d8 Fire Damage to all enemies | The Sorcerer hurls a ball of fire that explodes on impact |
+| Support        | Panacea       | Spends 1 Sorceror Point, Heals an allies by 1d8 | The Sorcerer emits a stream of healing magic |
