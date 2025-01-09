@@ -95,6 +95,8 @@ Vulnerable To: Fire
 
 Resistant To: Bludgeoning
 
+Starting Stats: 20 HP
+
 Actions
 
 | Category       | Name                  | Action | Description  |
