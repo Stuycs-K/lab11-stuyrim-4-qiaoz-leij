@@ -61,7 +61,7 @@ Resistant To: Fire, Cold, Lightning
 
 Special Resource: Sorcerer Points
 
-Starting Stats: 5 Sorceror Points, 20 HP
+Starting Stats: 5 Sorcerer Points, 20 HP
 
 Actions
 
