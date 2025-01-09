@@ -37,8 +37,11 @@ Actions
 ## Bard
 
 Vulnerable To: Blugeoning
+
 Resistant To: Psychic
+
 Special Resource: Spell Slots
+
 Starting Stats: 4 Spell Slots, 25 HP
 
 Actions
@@ -53,8 +56,11 @@ Actions
 ## Sorcerer
 
 Vulnerable To: Blugeoning, Psychic
+
 Resistant To: Fire, Cold, Lightning
+
 Special Resource: Sorcerer Points
+
 Starting Stats: 5 Sorceror Points, 20 HP
 
 Actions
