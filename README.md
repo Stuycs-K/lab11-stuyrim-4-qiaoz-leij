@@ -70,3 +70,25 @@ Actions
 | Attack         | Chromatic Orb | Deals 2d8 damage of a random elemental type (cold, fire, lightning) | The Sorcerer hurls a ball of elemental magic |
 | Special Attack | Fireball      | Spends 2 Sorcerer Points, Deals 1d8 Fire Damage to all enemies | The Sorcerer hurls a ball of fire that explodes on impact |
 | Support        | Panacea       | Spends 1 Sorceror Point, Heals an allies by 1d8 | The Sorcerer emits a stream of healing magic |
+
+
+
+## Enemy Subclasses
+
+## Specter
+
+Resistant To: Blugeoning, Fire, Cold, Lightning
+
+Special Resource: Ghastly Points
+
+Starting Stats: 0 Ghastly Points, 20 HP
+
+Vulnerable To: Psychic
+
+Actions
+
+| Category       | Name                  | Action | Description |
+| :------------- | :--------------       | :----- | :---------- |
+| Attack/Debuff  | Haunt                 | Deals 1d6 Psychic Damage, Applies Paralyzed effect for 1 turn | The Specter haunts an adventurer, spooking them |
+| Debuff         | Sensory Deprivation   | Applies Deaf and Blind effects for 1 turn | The Specter rids an adventurer's senses |
+| Special Attack | True Fear             | Spends 5 Ghastly Points, Deals 1d10 Psychic Damage and causes an adventurer to faint for 3 turns | The Specter overwhelms an adventurer's mind |
