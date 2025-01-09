@@ -1,9 +1,13 @@
-import java.util.Random;
+import java.util.ArrayList;
+
 public abstract class Adventurer{
   private String name;
-  private int HP,maxHP;
+  private int HP, maxHP;
+  private ArrayList<String> statusEffects;
+  private ArrayList<Integer> statusEffectsDurations;
+  private ArrayList<Adventurer> enemies, friends;
 
-  //Abstract methods are meant to be implemented in child classes.
+  // Abstract methods are meant to be implemented in child classes.
   /*
   all adventurers must have a custom special
   consumable resource (mana/rage/money/witts etc)
@@ -99,5 +103,43 @@ public abstract class Adventurer{
 
   public void setName(String s){
     this.name = s;
+  }
+
+  // Status Effects
+  public boolean hasStatus(String status) {
+    return statusEffects.contains(status);
+  }
+
+  public void applyStatus(String status, int duration) {
+    statusEffects.add(status);
+  }
+
+  public void removeStatus(String status) {
+    statusEffects.remove(status);
+  }
+
+  // Handling Enemies and Friends
+  public ArrayList<Adventurer> getEnemies() {
+    return enemies;
+  }
+
+  public ArrayList<Adventurer> getFriends() {
+    return friends;
+  }
+
+  public void removeEnemy(Adventurer enemy) {
+    enemies.remove(enemy);
+  }
+
+  public void removeFriend(Adventurer friend) {
+    friends.remove(friend);
+  }
+
+  public void addEnemy(Adventurer enemy) {
+    enemies.add(enemy);
+  }
+
+  public void addFriend(Adventurer friend) {
+    friends.add(friend);
   }
 }
