@@ -21,7 +21,9 @@ Make a clear list of features that work/dont work
 ## Monk
 
 Resistant To: Blugeoning, Psychic
+
 Special Resource: Ki Points
+
 Starting Stats: 2 Ki Points, 30 HP
 
 Actions
