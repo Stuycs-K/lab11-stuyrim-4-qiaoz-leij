@@ -85,9 +85,9 @@ Actions
 
 | Category       | Name                  | Action | Description |
 | :------------- | :--------------       | :----- | :---------- |
-| Support        | Howl                  | Adds 1d6 damage to it and any other wolf's attack next turn | The Dire Wolf howls |
+| Support        | Howl                  | Adds 1d6 damage to it and any other wolf's attack next turn, Adds 1 Bloodlust | The Dire Wolf howls |
 | Attack         | Bite                  | Deals 1d6 damage, Applies Bleeding effect for 2 turns | The Dire Wolf bites into an adventurer |
-| Special Attack | Pounce and Pin        | Spends 4 Bloodlust, Deals 1d10 damage and applies Pinned effect for 1 turn | The Dire Wolf pounces on an adventurer, pins them, and bites into them |
+| Special Attack | Pounce and Pin        | Spends 4 Bloodlust, Deals 2d6 damage and applies Prone effect for 1 turn | The Dire Wolf pounces on an adventurer, pins them, and bites into them |
 
 ## Spider Swarm
 
@@ -101,7 +101,7 @@ Actions
 
 | Category       | Name                  | Action | Description  |
 | :------------- | :--------------       | :----- | :----------  |
-| Attack         | Web Trap              | Applies Pinned effect | The swarm of spiders spin a web to trap an adventurer |
+| Attack         | Web Trap              | Applies Paralyzed effect | The swarm of spiders spin a web to trap an adventurer |
 | Attack         | Bite                  | Deals 1d6 damage, Applies Poisoned effect for 3 turns | The swarm of spiders bite into an adventurer |
 
 ## Specter
@@ -118,7 +118,7 @@ Actions
 
 | Category       | Name                  | Action | Description |
 | :------------- | :--------------       | :----- | :---------- |
-| Attack         | Haunt                 | Deals 2d10 Psychic Damage, Applies Paralyzed effect for 1 turn | The Specter haunts an adventurer, spooking them |
-| Attack         | Sensory Deprivation   | Applies Deaf and Blind effects for 2 turns | The Specter rids an adventurer's senses |
+| Attack         | Haunt                 | Deals 2d10 Psychic Damage, Applies Paralyzed effect for 1 turn, Gain 1 Ghastly Point | The Specter haunts an adventurer, spooking them |
+| Attack         | Sensory Deprivation   | Applies Deaf and Blind effects for 2 turns, Gains 2 Ghastly Points | The Specter rids an adventurer's senses |
 | Special Attack | True Fear             | Spends 5 Ghastly Points, Deals 3d10 Psychic Damage and causes an adventurer to faint for 3 turns | The Specter overwhelms an adventurer's mind |
 
