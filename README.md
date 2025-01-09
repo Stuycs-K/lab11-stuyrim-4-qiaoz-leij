@@ -22,6 +22,10 @@ replace this with your documentation for your two Adventurer subclasses. If you 
 
 ## Monk
 
+Resistant To: Blugeoning, Psychic
+Special Resource: Ki Points
+Starting Stats: 2 Ki Points, 30 HP
+
 Actions
 
 | Category       | Name            | Action | Description |
@@ -32,16 +36,26 @@ Actions
 
 ## Bard
 
+Vulnerable To: Blugeoning
+Resistant To: Psychic
+Special Resource: Spell Slots
+Starting Stats: 4 Spell Slots, 25 HP
+
 Actions
 
 | Category       | Name               | Action | Description |
 | :------------- | :----------------- | :----- | :---------- |
-| Attack         | Cutting Insult     | Deals 1d8 Physic Damage, Gives disadvantage on the next attack roll | The Bard mocks a enemy |
-| Special Attack | Dissonant Whispers | Spends 1 Spell Slot, Deals 3d6 Physic Damage | The Bard makes an enemy hear strange whispers |
+| Attack         | Cutting Insult     | Deals 1d8 Psychic Damage, Gives disadvantage on the next attack roll | The Bard mocks a enemy |
+| Special Attack | Dissonant Whispers | Spends 1 Spell Slot, Deals 3d6 Psychic Damage | The Bard makes an enemy hear strange whispers |
 | Support        | Bardic Inspiration | Spends 1 Spell Slot, Grants advantage for one turn | The Bard inspires an ally |
 
 
 ## Sorcerer
+
+Vulnerable To: Blugeoning, Psychic
+Resistant To: Fire, Cold, Lightning
+Special Resource: Sorcerer Points
+Starting Stats: 5 Sorceror Points, 20 HP
 
 Actions
 
