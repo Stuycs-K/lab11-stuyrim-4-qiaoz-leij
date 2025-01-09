@@ -59,7 +59,7 @@ public abstract class Adventurer{
     this.HP -= amount;
   }
 
-  //You did it wrong if this happens.
+  // You did it wrong if this happens.
   public Adventurer(){
     this("Lester-the-noArg-constructor-string");
   }
@@ -72,14 +72,17 @@ public abstract class Adventurer{
     this.name = name;
     this.HP = hp;
     this.maxHP = hp;
+    this.statusEffects = new ArrayList<Status>();
+    this.enemies = new ArrayList<Adventurer>();
+    this.friends = new ArrayList<Adventurer>();
   }
 
-  //toString method
+  // toString method
   public String toString(){
     return this.getName();
   }
 
-  //Get Methods
+  // Get Methods
   public String getName(){
     return name;
   }
@@ -95,7 +98,7 @@ public abstract class Adventurer{
     maxHP = newMax;
   }
 
-  //Set Methods
+  // Set Methods
   public void setHP(int health){
     this.HP = health;
   }
@@ -105,6 +108,15 @@ public abstract class Adventurer{
   }
 
   // Status Effects
+  public void decreaseAllStatuses(int amount) {
+    for (int i = 0; i < statusEffects.size(); i++) {
+      if (statusEffects.get(i).decrease(amount)) {
+        statusEffects.remove(i);
+        i--;
+      }
+    }
+  }
+
   public boolean hasStatus(String statusName) {
     return getStatusIndex(statusName) != -1;
   }
