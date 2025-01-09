@@ -87,7 +87,7 @@ Actions
 | :------------- | :--------------       | :----- | :---------- |
 | Support        | Howl                  | Adds 1d6 damage to it and any other wolf's attack next turn, Adds 1 Bloodlust | The Dire Wolf howls |
 | Attack         | Bite                  | Deals 1d6 damage, Applies Bleeding effect for 2 turns | The Dire Wolf bites into an adventurer |
-| Special Attack | Pounce and Pin        | Spends 4 Bloodlust, Deals 2d6 damage and applies Prone effect for 1 turn | The Dire Wolf pounces on an adventurer, pins them, and bites into them |
+| Special Attack | Pounce        | Spends 4 Bloodlust, Deals 2d6 damage and applies Prone effect for 1 turn | The Dire Wolf pounces on an adventurer and bites into them |
 
 ## Spider Swarm
 
@@ -122,3 +122,8 @@ Actions
 | Attack         | Sensory Deprivation   | Applies Deaf and Blind effects for 2 turns, Gains 2 Ghastly Points | The Specter rids an adventurer's senses |
 | Special Attack | True Fear             | Spends 5 Ghastly Points, Deals 3d10 Psychic Damage and causes an adventurer to faint for 3 turns | The Specter overwhelms an adventurer's mind |
 
+## Note
+
+Powered by the corrupted God of Nature, all Enemies have the following ability:
+
+| Support | | Cursed Blessing | Either heals or loses 2d6 HP | The corrupted God of Nature gives a blessing |
