@@ -110,13 +110,13 @@ Resistant To: Blugeoning, Fire, Cold, Lightning
 
 Special Resource: Ghastly Points
 
-Starting Stats: 0 Ghastly Points, 20 HP
+Starting Stats: 0 Ghastly Points, 40 HP
 
 Actions
 
 | Category       | Name                  | Action | Description |
 | :------------- | :--------------       | :----- | :---------- |
-| Attack         | Haunt                 | Deals 1d6 Psychic Damage, Applies Paralyzed effect for 1 turn | The Specter haunts an adventurer, spooking them |
-| Attack         | Sensory Deprivation   | Applies Deaf and Blind effects for 1 turn | The Specter rids an adventurer's senses |
-| Special Attack | True Fear             | Spends 5 Ghastly Points, Deals 1d10 Psychic Damage and causes an adventurer to faint for 3 turns | The Specter overwhelms an adventurer's mind |
+| Attack         | Haunt                 | Deals 2d10 Psychic Damage, Applies Paralyzed effect for 1 turn | The Specter haunts an adventurer, spooking them |
+| Attack         | Sensory Deprivation   | Applies Deaf and Blind effects for 2 turns | The Specter rids an adventurer's senses |
+| Special Attack | True Fear             | Spends 5 Ghastly Points, Deals 3d10 Psychic Damage and causes an adventurer to faint for 3 turns | The Specter overwhelms an adventurer's mind |
 
