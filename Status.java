@@ -20,7 +20,7 @@ public class Status {
     return duration;
   }
 
-  // Returns true if status has not run out
+  // Returns true if status has run out
   public boolean decrease(int amount) {
     if (amount <= 0) throw new IllegalArgumentException();
     if (duration == -1) return true;

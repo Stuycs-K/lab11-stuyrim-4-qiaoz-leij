@@ -3,8 +3,7 @@ import java.util.ArrayList;
 public abstract class Adventurer{
   private String name;
   private int HP, maxHP;
-  private ArrayList<String> statusEffects;
-  private ArrayList<Integer> statusEffectsDurations;
+  private ArrayList<Status> statusEffects;
   private ArrayList<Adventurer> enemies, friends;
 
   // Abstract methods are meant to be implemented in child classes.
@@ -106,16 +105,48 @@ public abstract class Adventurer{
   }
 
   // Status Effects
-  public boolean hasStatus(String status) {
-    return statusEffects.contains(status);
+  public boolean hasStatus(String statusName) {
+    return getStatusIndex(statusName) != -1;
   }
 
-  public void applyStatus(String status, int duration) {
-    statusEffects.add(status);
+  public void applyStatus(String statusName, int duration) {
+    int index = getStatusIndex(statusName);
+    if (index == -1) {
+      statusEffects.add(new Status(statusName, duration));
+    } else {
+      statusEffects.get(index).increase(duration);
+    }
   }
 
-  public void removeStatus(String status) {
-    statusEffects.remove(status);
+  // Returns true if the status was removed
+  public boolean removeStatus(String statusName) {
+    int index = getStatusIndex(statusName);
+    if (index == -1) return false;
+    removeStatusAtIndex(index);
+    return true;
+  }
+
+  // Returns true if the status was removed
+  public boolean decreaseStatus(String statusName, int amount) {
+    int index = getStatusIndex(statusName);
+    if (index == -1) throw new IllegalArgumentException();
+    if (statusEffects.get(index).decrease(amount)) {
+      removeStatusAtIndex(index);
+      return true;
+    }
+    return false;
+  }
+
+  private int getStatusIndex(String statusName) {
+    for (int i = 0; i < statusEffects.size(); i++) {
+      if (statusEffects.get(i).getName().equals(statusName)) return i;
+    }
+    return -1;
+  } 
+
+  private void removeStatusAtIndex(int index) {
+    if (index <= 0 || index > statusEffects.size()) throw new IllegalArgumentException();
+    statusEffects.remove(index);
   }
 
   // Handling Enemies and Friends
