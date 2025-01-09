@@ -124,6 +124,6 @@ Actions
 
 ## Note
 
-Powered by the corrupted God of Nature, all Enemies have the following ability:
+Powered by the corrupted God of Nature, all Enemies have the following support ability:
 
-| Support | | Cursed Blessing | Either heals or loses 2d6 HP | The corrupted God of Nature gives a blessing |
+Cursed Blessing: Either heals or loses 2d6 HP
