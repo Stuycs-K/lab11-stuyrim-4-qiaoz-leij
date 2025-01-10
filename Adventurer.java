@@ -5,7 +5,6 @@ public abstract class Adventurer{
   private int HP, maxHP;
   private ArrayList<Condition> conditions;
   private ArrayList<Adventurer> enemies, friends;
-  private boolean hasAdvantage, hasDisadvantage;
 
   // Abstract methods are meant to be implemented in child classes.
   /*
@@ -23,10 +22,10 @@ public abstract class Adventurer{
   //concrete method written using abstract methods.
   //refill special resource by amount, but only up to at most getSpecialMax()
   public int restoreSpecial(int n){
-    if( n > getSpecialMax() - getSpecial()){
+    if (n > getSpecialMax() - getSpecial()) {
       n = getSpecialMax() - getSpecial();
     }
-    setSpecial(getSpecial()+n);
+    setSpecial(getSpecial() + n);
     return n;
   }
 
@@ -56,20 +55,31 @@ public abstract class Adventurer{
   standard methods
   */
 
-  public void applyDamage(int amount){
+  public void applyDamage(int amount) {
+    Condition block = getCondition("Block");
+    if (block != null) amount -= block.decreaseLevel(amount);
     this.HP -= amount;
   }
 
+  public int rollDamage(int size) {
+    boolean disadvantage = removeCondition("Disadvantage"), advantage = removeCondition("Advantage");
+    int roll1 = Utility.rollDice(size), roll2 = Utility.rollDice(size);
+    if (advantage && disadvantage) return roll1;
+    if (advantage) return Math.max(roll1, roll2);
+    if (disadvantage) return Math.min(roll1, roll2);
+    return roll1;
+  }
+
   // You did it wrong if this happens.
-  public Adventurer(){
+  public Adventurer() {
     this("Lester-the-noArg-constructor-string");
   }
 
-  public Adventurer(String name){
+  public Adventurer(String name) {
     this(name, 10);
   }
 
-  public Adventurer(String name, int hp){
+  public Adventurer(String name, int hp) {
     this.name = name;
     this.HP = hp;
     this.maxHP = hp;
@@ -79,39 +89,45 @@ public abstract class Adventurer{
   }
 
   // toString method
-  public String toString(){
+
+  public String toString() {
     return this.getName();
   }
 
   // Get Methods
-  public String getName(){
+
+  public String getName() {
     return name;
   }
 
-  public int getHP(){
+  public int getHP() {
     return HP;
   }
 
-  public int getmaxHP(){
+  public int getmaxHP() {
     return maxHP;
-  }
-  public void setmaxHP(int newMax){
-    maxHP = newMax;
   }
 
   // Set Methods
-  public void setHP(int health){
-    this.HP = health;
-  }
 
   public void setName(String s){
     this.name = s;
   }
 
+  public void setmaxHP(int newMax) {
+    maxHP = newMax;
+  }
+
+  public void setHP(int health){
+    this.HP = health;
+  }
+
   // Condition Effects
-  public void decreaseAllConditiones(int amount) {
+
+  public void decreaseDurations(int amount) {
     for (int i = 0; i < conditions.size(); i++) {
-      if (conditions.get(i).decrease(amount)) {
+      // Removes if duration or level reaches 0
+      if (conditions.get(i).decreaseDuration(amount) || conditions.get(i).getLevel() == 0) {
         conditions.remove(i);
         i--;
       }
@@ -119,15 +135,20 @@ public abstract class Adventurer{
   }
 
   public boolean hasCondition(String conditionName) {
-    return getConditionIndex(conditionName) != -1;
+    return getCondition(conditionName) != null;
   }
 
   public void applyCondition(String conditionName, int duration) {
-    int index = getConditionIndex(conditionName);
-    if (index == -1) {
-      conditions.add(new Condition(conditionName, duration));
+    applyCondition(conditionName, duration, 1);
+  }
+
+  public void applyCondition(String conditionName, int duration, int level) {
+    Condition condition = getCondition(conditionName);
+    if (condition == null) {
+      conditions.add(new Condition(conditionName, duration, level));
     } else {
-      if (conditions.get(index).getDuration() < duration) conditions.get(index).set(duration);
+      condition.setDuration(Math.max(condition.getDuration(), duration));
+      condition.setLevel(Math.max(condition.getLevel(), level));
     }
   }
 
@@ -140,14 +161,19 @@ public abstract class Adventurer{
   }
 
   // Returns true if the condition was removed
-  public boolean decreaseCondition(String conditionName, int amount) {
+  public boolean decreaseDuration(String conditionName, int amount) {
     int index = getConditionIndex(conditionName);
     if (index == -1) throw new IllegalArgumentException();
-    if (conditions.get(index).decrease(amount)) {
+    if (conditions.get(index).decreaseDuration(amount)) {
       removeConditionAtIndex(index);
       return true;
     }
     return false;
+  }
+
+  private Condition getCondition(String conditionName) {
+    int conditionIndex = getConditionIndex(conditionName);
+    return conditionIndex == -1 ? null : conditions.get(conditionIndex);
   }
 
   private int getConditionIndex(String conditionName) {
@@ -163,6 +189,7 @@ public abstract class Adventurer{
   }
 
   // Handling Enemies and Friends
+
   public ArrayList<Adventurer> getEnemies() {
     return enemies;
   }
