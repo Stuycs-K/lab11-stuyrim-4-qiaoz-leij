@@ -3,8 +3,9 @@ import java.util.ArrayList;
 public abstract class Adventurer{
   private String name;
   private int HP, maxHP;
-  private ArrayList<Status> statusEffects;
+  private ArrayList<Condition> conditions;
   private ArrayList<Adventurer> enemies, friends;
+  private boolean hasAdvantage, hasDisadvantage;
 
   // Abstract methods are meant to be implemented in child classes.
   /*
@@ -72,7 +73,7 @@ public abstract class Adventurer{
     this.name = name;
     this.HP = hp;
     this.maxHP = hp;
-    this.statusEffects = new ArrayList<Status>();
+    this.conditions = new ArrayList<Condition>();
     this.enemies = new ArrayList<Adventurer>();
     this.friends = new ArrayList<Adventurer>();
   }
@@ -107,58 +108,58 @@ public abstract class Adventurer{
     this.name = s;
   }
 
-  // Status Effects
-  public void decreaseAllStatuses(int amount) {
-    for (int i = 0; i < statusEffects.size(); i++) {
-      if (statusEffects.get(i).decrease(amount)) {
-        statusEffects.remove(i);
+  // Condition Effects
+  public void decreaseAllConditiones(int amount) {
+    for (int i = 0; i < conditions.size(); i++) {
+      if (conditions.get(i).decrease(amount)) {
+        conditions.remove(i);
         i--;
       }
     }
   }
 
-  public boolean hasStatus(String statusName) {
-    return getStatusIndex(statusName) != -1;
+  public boolean hasCondition(String conditionName) {
+    return getConditionIndex(conditionName) != -1;
   }
 
-  public void applyStatus(String statusName, int duration) {
-    int index = getStatusIndex(statusName);
+  public void applyCondition(String conditionName, int duration) {
+    int index = getConditionIndex(conditionName);
     if (index == -1) {
-      statusEffects.add(new Status(statusName, duration));
+      conditions.add(new Condition(conditionName, duration));
     } else {
-      statusEffects.get(index).increase(duration);
+      if (conditions.get(index).getDuration() < duration) conditions.get(index).set(duration);
     }
   }
 
-  // Returns true if the status was removed
-  public boolean removeStatus(String statusName) {
-    int index = getStatusIndex(statusName);
+  // Returns true if the condition was removed
+  public boolean removeCondition(String conditionName) {
+    int index = getConditionIndex(conditionName);
     if (index == -1) return false;
-    removeStatusAtIndex(index);
+    removeConditionAtIndex(index);
     return true;
   }
 
-  // Returns true if the status was removed
-  public boolean decreaseStatus(String statusName, int amount) {
-    int index = getStatusIndex(statusName);
+  // Returns true if the condition was removed
+  public boolean decreaseCondition(String conditionName, int amount) {
+    int index = getConditionIndex(conditionName);
     if (index == -1) throw new IllegalArgumentException();
-    if (statusEffects.get(index).decrease(amount)) {
-      removeStatusAtIndex(index);
+    if (conditions.get(index).decrease(amount)) {
+      removeConditionAtIndex(index);
       return true;
     }
     return false;
   }
 
-  private int getStatusIndex(String statusName) {
-    for (int i = 0; i < statusEffects.size(); i++) {
-      if (statusEffects.get(i).getName().equals(statusName)) return i;
+  private int getConditionIndex(String conditionName) {
+    for (int i = 0; i < conditions.size(); i++) {
+      if (conditions.get(i).getName().equals(conditionName)) return i;
     }
     return -1;
-  } 
+  }
 
-  private void removeStatusAtIndex(int index) {
-    if (index <= 0 || index > statusEffects.size()) throw new IllegalArgumentException();
-    statusEffects.remove(index);
+  private void removeConditionAtIndex(int index) {
+    if (index <= 0 || index > conditions.size()) throw new IllegalArgumentException();
+    conditions.remove(index);
   }
 
   // Handling Enemies and Friends

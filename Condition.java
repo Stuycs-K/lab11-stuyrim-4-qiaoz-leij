@@ -1,15 +1,19 @@
-public class Status {
+public class Condition {
   private String name;
-  private int duration;
+  private int duration, level;
 
-  public Status(String name, int duration) {
+  public Condition(String name, int duration, int level) {
     this.name = name;
     this.duration = duration;
+    this.level = level;
   }
 
-  public Status(String name) {
-    this.name = name;
-    this.duration = -1; // Permanent
+  public Condition(String name, int duration) {
+    Condition(name, duration, 1); // Default level is 1
+  }
+
+  public Condition(String name) {
+    Condition(name, -1); // Permanent
   }
 
   public String getName() {
@@ -41,8 +45,8 @@ public class Status {
     increase(1);
   }
 
-  public void set(int n) {
-    if (n < 0) throw new IllegalArgumentException();
+  public void set(int amount) {
+    if (amount <= 0) throw new IllegalArgumentException();
     duration = n;
   }
 }
