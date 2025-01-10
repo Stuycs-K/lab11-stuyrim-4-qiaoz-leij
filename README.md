@@ -103,7 +103,7 @@ Actions
 
 | Category       | Name                  | Action | Description  |
 | :------------- | :--------------       | :----- | :----------  |
-| Attack         | Bite                  | Deals 1d6 damage, Applies Poisoned effect for 3 turns  | The swarm of spiders bite into an adventurer |
+| Attack         | Bite                  | Deals 1d6 damage, Applies Poisoned effect for 3 turns, and Adds 1 Webbing  | The swarm of spiders bite into an adventurer |
 | Special Attack | Web Trap              | Spends 3 Webbing, Applies Paralyzed effect for 2 turns | The swarm of spiders spin a web to trap an adventurer |
 
 ## Specter
