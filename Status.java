@@ -40,4 +40,9 @@ public class Status {
   public void increase() {
     increase(1);
   }
+
+  public void set(int n) {
+    if (n < 0) throw new IllegalArgumentException();
+    duration = n;
+  }
 }
