@@ -3,7 +3,7 @@ import java.util.ArrayList;
 public abstract class Adventurer{
   private String name;
   private int HP, maxHP;
-  private ArrayList<Status> statusEffects;
+  private ArrayList<Condition> conditions;
   private ArrayList<Adventurer> enemies, friends;
 
   // Abstract methods are meant to be implemented in child classes.
@@ -22,10 +22,10 @@ public abstract class Adventurer{
   //concrete method written using abstract methods.
   //refill special resource by amount, but only up to at most getSpecialMax()
   public int restoreSpecial(int n){
-    if( n > getSpecialMax() - getSpecial()){
+    if (n > getSpecialMax() - getSpecial()) {
       n = getSpecialMax() - getSpecial();
     }
-    setSpecial(getSpecial()+n);
+    setSpecial(getSpecial() + n);
     return n;
   }
 
@@ -55,113 +55,141 @@ public abstract class Adventurer{
   standard methods
   */
 
-  public void applyDamage(int amount){
+  public void applyDamage(int amount) {
+    Condition block = getCondition("Block");
+    if (block != null) amount -= block.decreaseLevel(amount);
     this.HP -= amount;
   }
 
+  public int rollDamage(int size) {
+    boolean disadvantage = removeCondition("Disadvantage"), advantage = removeCondition("Advantage");
+    int roll1 = Utility.rollDice(size), roll2 = Utility.rollDice(size);
+    if (advantage && disadvantage) return roll1;
+    if (advantage) return Math.max(roll1, roll2);
+    if (disadvantage) return Math.min(roll1, roll2);
+    return roll1;
+  }
+
   // You did it wrong if this happens.
-  public Adventurer(){
+  public Adventurer() {
     this("Lester-the-noArg-constructor-string");
   }
 
-  public Adventurer(String name){
+  public Adventurer(String name) {
     this(name, 10);
   }
 
-  public Adventurer(String name, int hp){
+  public Adventurer(String name, int hp) {
     this.name = name;
     this.HP = hp;
     this.maxHP = hp;
-    this.statusEffects = new ArrayList<Status>();
+    this.conditions = new ArrayList<Condition>();
     this.enemies = new ArrayList<Adventurer>();
     this.friends = new ArrayList<Adventurer>();
   }
 
   // toString method
-  public String toString(){
+
+  public String toString() {
     return this.getName();
   }
 
   // Get Methods
-  public String getName(){
+
+  public String getName() {
     return name;
   }
 
-  public int getHP(){
+  public int getHP() {
     return HP;
   }
 
-  public int getmaxHP(){
+  public int getmaxHP() {
     return maxHP;
-  }
-  public void setmaxHP(int newMax){
-    maxHP = newMax;
   }
 
   // Set Methods
-  public void setHP(int health){
-    this.HP = health;
-  }
 
   public void setName(String s){
     this.name = s;
   }
 
-  // Status Effects
-  public void decreaseAllStatuses(int amount) {
-    for (int i = 0; i < statusEffects.size(); i++) {
-      if (statusEffects.get(i).decrease(amount)) {
-        statusEffects.remove(i);
+  public void setmaxHP(int newMax) {
+    maxHP = newMax;
+  }
+
+  public void setHP(int health){
+    this.HP = health;
+  }
+
+  // Condition Effects
+
+  public void decreaseDurations(int amount) {
+    for (int i = 0; i < conditions.size(); i++) {
+      // Removes if duration or level reaches 0
+      if (conditions.get(i).decreaseDuration(amount) || conditions.get(i).getLevel() == 0) {
+        conditions.remove(i);
         i--;
       }
     }
   }
 
-  public boolean hasStatus(String statusName) {
-    return getStatusIndex(statusName) != -1;
+  public boolean hasCondition(String conditionName) {
+    return getCondition(conditionName) != null;
   }
 
-  public void applyStatus(String statusName, int duration) {
-    int index = getStatusIndex(statusName);
-    if (index == -1) {
-      statusEffects.add(new Status(statusName, duration));
+  public void applyCondition(String conditionName, int duration) {
+    applyCondition(conditionName, duration, 1);
+  }
+
+  public void applyCondition(String conditionName, int duration, int level) {
+    Condition condition = getCondition(conditionName);
+    if (condition == null) {
+      conditions.add(new Condition(conditionName, duration, level));
     } else {
-      statusEffects.get(index).increase(duration);
+      condition.setDuration(Math.max(condition.getDuration(), duration));
+      condition.setLevel(Math.max(condition.getLevel(), level));
     }
   }
 
-  // Returns true if the status was removed
-  public boolean removeStatus(String statusName) {
-    int index = getStatusIndex(statusName);
+  // Returns true if the condition was removed
+  public boolean removeCondition(String conditionName) {
+    int index = getConditionIndex(conditionName);
     if (index == -1) return false;
-    removeStatusAtIndex(index);
+    removeConditionAtIndex(index);
     return true;
   }
 
-  // Returns true if the status was removed
-  public boolean decreaseStatus(String statusName, int amount) {
-    int index = getStatusIndex(statusName);
+  // Returns true if the condition was removed
+  public boolean decreaseDuration(String conditionName, int amount) {
+    int index = getConditionIndex(conditionName);
     if (index == -1) throw new IllegalArgumentException();
-    if (statusEffects.get(index).decrease(amount)) {
-      removeStatusAtIndex(index);
+    if (conditions.get(index).decreaseDuration(amount)) {
+      removeConditionAtIndex(index);
       return true;
     }
     return false;
   }
 
-  private int getStatusIndex(String statusName) {
-    for (int i = 0; i < statusEffects.size(); i++) {
-      if (statusEffects.get(i).getName().equals(statusName)) return i;
+  private Condition getCondition(String conditionName) {
+    int conditionIndex = getConditionIndex(conditionName);
+    return conditionIndex == -1 ? null : conditions.get(conditionIndex);
+  }
+
+  private int getConditionIndex(String conditionName) {
+    for (int i = 0; i < conditions.size(); i++) {
+      if (conditions.get(i).getName().equals(conditionName)) return i;
     }
     return -1;
-  } 
+  }
 
-  private void removeStatusAtIndex(int index) {
-    if (index <= 0 || index > statusEffects.size()) throw new IllegalArgumentException();
-    statusEffects.remove(index);
+  private void removeConditionAtIndex(int index) {
+    if (index <= 0 || index > conditions.size()) throw new IllegalArgumentException();
+    conditions.remove(index);
   }
 
   // Handling Enemies and Friends
+
   public ArrayList<Adventurer> getEnemies() {
     return enemies;
   }

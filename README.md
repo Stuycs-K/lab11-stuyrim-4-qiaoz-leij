@@ -95,14 +95,16 @@ Vulnerable To: Fire
 
 Resistant To: Bludgeoning
 
-Starting Stats: 20 HP
+Special Resource: Webbing
+
+Starting Stats: 1 Webbing, 20 HP
 
 Actions
 
 | Category       | Name                  | Action | Description  |
 | :------------- | :--------------       | :----- | :----------  |
-| Attack         | Web Trap              | Applies Paralyzed effect | The swarm of spiders spin a web to trap an adventurer |
-| Attack         | Bite                  | Deals 1d6 damage, Applies Poisoned effect for 3 turns | The swarm of spiders bite into an adventurer |
+| Attack         | Bite                  | Deals 1d6 damage, Applies Poisoned effect for 3 turns, and Adds 1 Webbing  | The swarm of spiders bite into an adventurer |
+| Special Attack | Web Trap              | Spends 3 Webbing, Applies Paralyzed effect for 2 turns | The swarm of spiders spin a web to trap an adventurer |
 
 ## Specter
 
