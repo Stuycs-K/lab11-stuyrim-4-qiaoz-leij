@@ -79,7 +79,7 @@ Actions
 
 Special Resource: Bloodlust
 
-Starting Stats: 2 Bloodlust, 15 HP
+Starting Stats: 2 Bloodlust, 25 HP
 
 Actions
 
