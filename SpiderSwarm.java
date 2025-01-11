@@ -7,20 +7,25 @@ public class SpiderSwarm extends Enemies {
     @Override
     public String attack(Adventurer other) {
         int dmg = (int) (Math.random() * 6) + 1;
+        String condition = "Poisoned";
+        int duration = 3;
         other.applyDamage(dmg);
-        other.applyCondition("Poisoned", 3);
+        other.applyCondition(condition, duration);
         int n = restoreSpecial(1);
-        return "Dealt " + dmg + " damage; Restored " + n + " " + getSpecialName();
+        return "Dealt " + dmg + " damage; Restored " + n + " " + getSpecialName() + 
+            "; " + condition + " " + other.getName() + " for " + duration + "turns";
     }
 
     @Override
     public String specialAttack(Adventurer other) {
+        String condition = "Paralyzed";
+        int duration = 2;
         if (getSpecial() < 3) {
             return "Too little mana; " + attack(other);
           } else {
             setSpecial(getSpecial()-3);;
-            other.applyCondition("Paralyzed", 2);
+            other.applyCondition(condition, duration);
           }
-        return "Paralyzed " + other.getName() + " for 2 turns";
+        return condition + " " + other.getName() + " for " + duration + " turns";
     }
 }
