@@ -66,10 +66,10 @@ public abstract class Adventurer {
   }
 
   public int rollDamage(int size) {
-    boolean disadvantage = removeCondition("Disadvantage") || hasConditon("Blind");
-    boolean advantage = removeCondition("Advantage") || hasConditon("Inspired") && !hasCondition("Deaf");
+    boolean disadvantage = removeCondition("Disadvantage") || hasCondition("Blind");
+    boolean advantage = removeCondition("Advantage") || hasCondition("Inspired") && !hasCondition("Deaf");
     int roll1 = Utility.rollDice(size), roll2 = Utility.rollDice(size);
-    int bonus = hasConditon(Strengthened) ? Utility.rollDice(6) : 0;
+    int bonus = hasCondition("Strengthened") ? Utility.rollDice(6) : 0;
     if (advantage && disadvantage) return roll1 + bonus;
     if (advantage) return Math.max(roll1, roll2) + bonus;
     if (disadvantage) return Math.min(roll1, roll2) + bonus;
@@ -134,9 +134,9 @@ public abstract class Adventurer {
   // Condition Effects
 
   public void endTurn() {
-    if (hasCondition("Poisoned")) applyDamage(rollDice(4), "Acid");
-    if (hasCondition("Bleeding") && Utility.rollDice(2) == 1) applyDamage(rollDice(8), "Piercing");
-    decreaseDurations();
+    if (hasCondition("Poisoned")) applyDamage(Utility.rollDice(4), "Acid");
+    if (hasCondition("Bleeding") && Utility.rollDice(2) == 1) applyDamage(Utility.rollDice(8), "Piercing");
+    decreaseDurations(1);
   }
 
   public void decreaseDurations(int amount) {
