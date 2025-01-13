@@ -1,10 +1,11 @@
 import java.util.ArrayList;
 
-public abstract class Adventurer{
+public abstract class Adventurer {
   private String name;
   private int HP, maxHP;
   private ArrayList<Condition> conditions;
   private ArrayList<Adventurer> enemies, friends;
+  private ArrayList<String> vulnerabilities, resistances;
 
   // Abstract methods are meant to be implemented in child classes.
   /*
@@ -55,8 +56,11 @@ public abstract class Adventurer{
   standard methods
   */
 
-  public void applyDamage(int amount) {
+  public void applyDamage(int amount, String type) {
     Condition block = getCondition("Block");
+    // Vulnerabilities and Resistances are applied before block
+    if (vulnerabilities.contains(type)) amount *= 2;
+    if (resistances.contains(type)) amount /= 2;
     if (block != null) amount -= block.decreaseLevel(amount);
     this.HP -= amount;
   }
@@ -75,14 +79,17 @@ public abstract class Adventurer{
     this("Lester-the-noArg-constructor-string");
   }
 
+  // Deprecated
   public Adventurer(String name) {
-    this(name, 10);
+    this(name, 10, new ArrayList<String>(), new ArrayList<String>());
   }
 
-  public Adventurer(String name, int hp) {
+  public Adventurer(String name, int hp, ArrayList<String> vulnerabilities, ArrayList<String> resistances) {
     this.name = name;
     this.HP = hp;
     this.maxHP = hp;
+    this.vulnerabilities = vulnerabilities;
+    this.resistances = resistances;
     this.conditions = new ArrayList<Condition>();
     this.enemies = new ArrayList<Adventurer>();
     this.friends = new ArrayList<Adventurer>();

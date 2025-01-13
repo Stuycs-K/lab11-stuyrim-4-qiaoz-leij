@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class CodeWarrior extends Adventurer{
   int caffeine, caffeineMax;
   String preferredLanguage;
@@ -5,7 +7,7 @@ public class CodeWarrior extends Adventurer{
   /*the other constructors ultimately call the constructor
   *with all parameters.*/
   public CodeWarrior(String name, int hp, String language){
-    super(name,hp);
+    super(name, hp, new ArrayList<String>(), new ArrayList<String>());
     caffeineMax = 12;
     caffeine = caffeineMax/2;
     preferredLanguage = language;
@@ -43,7 +45,7 @@ public class CodeWarrior extends Adventurer{
   /*Deal 2-7 damage to opponent, restores 2 caffeine*/
   public String attack(Adventurer other){
     int damage = (int)(Math.random()*6)+2;
-    other.applyDamage(damage);
+    other.applyDamage(damage, "Slashing");
     restoreSpecial(2);
     return this + " attacked "+ other + " and dealt "+ damage +
     " points of damage. They then take a sip of their coffee.";
@@ -56,7 +58,7 @@ public class CodeWarrior extends Adventurer{
     if(getSpecial() >= 8){
       setSpecial(getSpecial()-8);
       int damage = (int)(Math.random()*5+Math.random()*5)+3;
-      other.applyDamage(damage);
+      other.applyDamage(damage, "Psychic");
       return this + " used their "+preferredLanguage+
       " skills to hack the matrix. "+
       " This glitched out "+other+" dealing "+ damage +" points of damage.";
