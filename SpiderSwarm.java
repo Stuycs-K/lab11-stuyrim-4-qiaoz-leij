@@ -1,18 +1,22 @@
 public class SpiderSwarm extends Enemies {
 
+    private ArrayList<String> vulnerabilities = new ArrayList<String>();
+    vulnerabilities.add("Fire");
+    private ArrayList<String> resistances = new ArrayList<String>();
+    resistances.add("Bludgeoning");
     public SpiderSwarm() {
-        super("Spider Swarm", 20, "Webbing", 1, 5);
+        super("Spider Swarm", 20, vulnerabilities, resistances, "Webbing", 1, 5);
     }
 
     @Override
     public String attack(Adventurer other) {
-        int dmg = (int) (Math.random() * 6) + 1;
+        int dmg = rollDamage(6);
         String condition = "Poisoned";
         int duration = 3;
-        other.applyDamage(dmg);
+        other.applyDamage(dmg, "Piercing");
         other.applyCondition(condition, duration);
         int n = restoreSpecial(1);
-        return "Dealt " + dmg + " damage; Restored " + n + " " + getSpecialName() + 
+        return "Dealt " + dmg + " damage; Restored " + n + " " + getSpecialName() +
             "; " + condition + " " + other.getName() + " for " + duration + "turns";
     }
 

@@ -1,6 +1,9 @@
 public class DireWolf extends Enemies {
+    private ArrayList<String> vulnerabilities = new ArrayList<String>();
+    private ArrayList<String> resistances = new ArrayList<String>();
+
     public DireWolf() {
-        super("Dire Wolf", 25, "Bloodlust", 2, 7);
+        super("Dire Wolf", 25, vulnerabilities, resistances, "Bloodlust", 2, 7);
     }
 
     public String uniqueSupport() {
@@ -17,10 +20,10 @@ public class DireWolf extends Enemies {
 
     @Override
     public String attack(Adventurer other) {
-        int dmg = (int) (Math.random() * 6) + 1;
+        int dmg = rollDamage(6);
         String condition = "Bleeding";
         int duration = 2;
-        other.applyDamage(dmg);
+        other.applyDamage(dmg, "Piercing");
         other.applyCondition(condition, duration);
         return "Dealt " + dmg + " damage; Applied " + condition + " for " + duration + " turns";
     }
@@ -37,7 +40,7 @@ public class DireWolf extends Enemies {
             other.applyDamage(dmg);
             other.applyCondition(condition, duration);
           }
-          return "Dealt " + dmg + " damage; " 
+          return "Dealt " + dmg + " damage; "
             + condition + " " + other.getName() + " for " + duration + "turns";
     }
 }

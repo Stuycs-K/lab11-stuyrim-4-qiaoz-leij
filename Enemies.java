@@ -1,10 +1,12 @@
+import java.util.ArrayList;
+
 public abstract class Enemies extends Adventurer {
 
   private String specialResourceName;
   private int specialResource, specialResourceMax;
 
-  public Enemies(String name, int HP, String specialResourceName, int specialResource, int specialResourceMax) {
-      super(name, HP);
+  public Enemies(String name, int HP, ArrayList<String> vulnerabilities, ArrayList<String> resistances, String specialResourceName, int specialResource, int specialResourceMax) {
+      super(name, HP, vulnerabilities, resistances);
 
       this.specialResourceName = specialResourceName;
       this.specialResource = specialResource;
