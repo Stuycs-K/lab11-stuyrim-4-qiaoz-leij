@@ -30,6 +30,12 @@ public abstract class Adventurer {
     return n;
   }
 
+  public boolean consumeSpecial(int n) {
+    if (n < getSpecial()) return false;
+    setSpecial(getSpecial() - n);
+    return true;
+  }
+
   /*
   all adventurers must have a way to attack enemies and
   support their allys
