@@ -14,8 +14,7 @@ public class Boss extends Enemies {
 
   @Override
   public String attack(Adventurer other) {
-      int dmg = rollDamage(10) + rollDamage(10);
-      other.applyDamage(dmg, "Psychic");
+      int dmg = other.applyDamage(rollDamage(10) + rollDamage(10), "Psychic");
       restoreSpecial(1);
       return "Dealt " + dmg + " damage; Restored 1 Ghastly Point";
   }
@@ -31,15 +30,14 @@ public class Boss extends Enemies {
   public String specialAttack(Adventurer other) {
       String condition = "Paralyzed";
       int duration = 3;
-      int dmg = rollDamage(10) + rollDamage(10) + rollDamage(10);
       if (getSpecial() < 5) {
           return "Too little mana; " + attack(other);
         } else {
           setSpecial(getSpecial()-5);
-          other.applyDamage(dmg);
+          int dmg = other.applyDamage(rollDamage(10) + rollDamage(10) + rollDamage(10), "Psychic");
           other.applyCondition(condition, duration);
+          return "Dealt " + dmg + " damage; "
+            + condition + " " + other.getName() + " for " + duration + "turns";
         }
-        return "Dealt " + dmg + " damage; "
-          + condition + " " + other.getName() + " for " + duration + "turns";
   }
 }

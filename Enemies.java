@@ -35,7 +35,7 @@ public abstract class Enemies extends Adventurer {
 
   private int heal() {
       int heal;
-      heal = (int) (Math.random() * 6) + (int) (Math.random() * 6) + 2;
+      heal = Utility.rollDice(6) + Utility.rollDice(6);
       if (Math.random() < 0.5) {
           heal = -heal;
       }

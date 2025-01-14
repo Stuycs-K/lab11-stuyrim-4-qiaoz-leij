@@ -10,10 +10,9 @@ public class SpiderSwarm extends Enemies {
 
     @Override
     public String attack(Adventurer other) {
-        int dmg = rollDamage(6);
         String condition = "Poisoned";
         int duration = 3;
-        other.applyDamage(dmg, "Piercing");
+        int dmg = other.applyDamage(rollDamage(6), "Piercing");
         other.applyCondition(condition, duration);
         int n = restoreSpecial(1);
         return "Dealt " + dmg + " damage; Restored " + n + " " + getSpecialName() +

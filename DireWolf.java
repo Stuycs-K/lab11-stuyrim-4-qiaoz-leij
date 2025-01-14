@@ -20,10 +20,9 @@ public class DireWolf extends Enemies {
 
     @Override
     public String attack(Adventurer other) {
-        int dmg = rollDamage(6);
         String condition = "Bleeding";
         int duration = 2;
-        other.applyDamage(dmg, "Piercing");
+        int dmg = other.applyDamage(rollDamage(6), "Piercing");
         other.applyCondition(condition, duration);
         return "Dealt " + dmg + " damage; Applied " + condition + " for " + duration + " turns";
     }
@@ -32,15 +31,14 @@ public class DireWolf extends Enemies {
     public String specialAttack(Adventurer other) {
         String condition = "Prone";
         int duration = 1;
-        int dmg = rollDamage(6) + rollDamage(6);
         if (getSpecial() < 4) {
             return "Too little mana; " + attack(other);
           } else {
             setSpecial(getSpecial()-4);
-            other.applyDamage(dmg);
+            int dmg = other.applyDamage(rollDamage(6) + rollDamage(6), "Piercing");
             other.applyCondition(condition, duration);
+            return "Dealt " + dmg + " damage; "
+              + condition + " " + other.getName() + " for " + duration + "turns";
           }
-          return "Dealt " + dmg + " damage; "
-            + condition + " " + other.getName() + " for " + duration + "turns";
     }
 }
