@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-
 public class CodeWarrior extends Adventurer{
   int caffeine, caffeineMax;
   String preferredLanguage;
@@ -7,7 +5,7 @@ public class CodeWarrior extends Adventurer{
   /*the other constructors ultimately call the constructor
   *with all parameters.*/
   public CodeWarrior(String name, int hp, String language){
-    super(name, hp, new ArrayList<String>(), new ArrayList<String>());
+    super(name, hp, null, null);
     caffeineMax = 12;
     caffeine = caffeineMax/2;
     preferredLanguage = language;

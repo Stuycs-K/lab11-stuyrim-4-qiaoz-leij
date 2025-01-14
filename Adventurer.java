@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public abstract class Adventurer {
   private String name;
@@ -30,6 +31,12 @@ public abstract class Adventurer {
     return n;
   }
 
+  public boolean consumeSpecial(int n) {
+    if (n < getSpecial()) return false;
+    setSpecial(getSpecial() - n);
+    return true;
+  }
+
   /*
   all adventurers must have a way to attack enemies and
   support their allys
@@ -56,22 +63,25 @@ public abstract class Adventurer {
   standard methods
   */
 
-  public void applyDamage(int amount, String type) {
+  public int applyDamage(int amount, String type) {
     Condition block = getCondition("Block");
     // Vulnerabilities and Resistances are applied before block
     if (vulnerabilities.contains(type)) amount *= 2;
     if (resistances.contains(type)) amount /= 2;
     if (block != null) amount -= block.decreaseLevel(amount);
     this.HP -= amount;
+    return amount;
   }
 
   public int rollDamage(int size) {
-    boolean disadvantage = removeCondition("Disadvantage"), advantage = removeCondition("Advantage");
+    boolean disadvantage = removeCondition("Disadvantage") || hasCondition("Blind");
+    boolean advantage = removeCondition("Advantage") || hasCondition("Inspired") && !hasCondition("Deaf");
     int roll1 = Utility.rollDice(size), roll2 = Utility.rollDice(size);
-    if (advantage && disadvantage) return roll1;
-    if (advantage) return Math.max(roll1, roll2);
-    if (disadvantage) return Math.min(roll1, roll2);
-    return roll1;
+    int bonus = hasCondition("Strengthened") ? Utility.rollDice(6) : 0;
+    if (advantage && disadvantage) return roll1 + bonus;
+    if (advantage) return Math.max(roll1, roll2) + bonus;
+    if (disadvantage) return Math.min(roll1, roll2) + bonus;
+    return roll1 + bonus;
   }
 
   // You did it wrong if this happens.
@@ -81,15 +91,15 @@ public abstract class Adventurer {
 
   // Deprecated
   public Adventurer(String name) {
-    this(name, 10, new ArrayList<String>(), new ArrayList<String>());
+    this(name, 10, new String[]{}, new String[]{});
   }
 
-  public Adventurer(String name, int hp, ArrayList<String> vulnerabilities, ArrayList<String> resistances) {
+  public Adventurer(String name, int hp, String[] vulnerabilities, String[] resistances) {
     this.name = name;
     this.HP = hp;
     this.maxHP = hp;
-    this.vulnerabilities = vulnerabilities;
-    this.resistances = resistances;
+    this.vulnerabilities = new ArrayList<String>(Arrays.asList(vulnerabilities));
+    this.resistances = new ArrayList<String>(Arrays.asList(resistances));
     this.conditions = new ArrayList<Condition>();
     this.enemies = new ArrayList<Adventurer>();
     this.friends = new ArrayList<Adventurer>();
@@ -130,6 +140,12 @@ public abstract class Adventurer {
   }
 
   // Condition Effects
+
+  public void endTurn() {
+    if (hasCondition("Poisoned")) applyDamage(Utility.rollDice(4), "Acid");
+    if (hasCondition("Bleeding") && Utility.rollDice(2) == 1) applyDamage(Utility.rollDice(8), "Piercing");
+    decreaseDurations(1);
+  }
 
   public void decreaseDurations(int amount) {
     for (int i = 0; i < conditions.size(); i++) {
