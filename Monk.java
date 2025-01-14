@@ -36,7 +36,7 @@ public class Monk extends Adventurer {
       restoreSpecial(1);
       action += " and restored 1 Ki Point";
     }
-    return attackNote + "!";
+    return action + "!";
   }
 
   @Override

@@ -1,39 +1,49 @@
-public class Bard extends Adventurer {
-  private int spellSlots;
-  private static final int maxSpellSlots = 10;
+public class Sorcerer extends Adventurer {
+  private int sorcererPoints;
+  private static final int maxSorcererPoints = 10;
 
-  public Bard(String name) {
-    super(name, 25, new String[] {"Blugeoning"}, new String[] {"Psychic"});
-    spellSlots = 4;
+  public Sorcerer(String name) {
+    super(name, 20, new String[] {"Blugeoning", "Psychic"}, new String[] {"Fire, Cold", "Lightning"});
+    sorcererPoints = 5;
   }
 
   @Override
   public String getSpecialName() {
-    return "Spell Slots";
+    return "Sorcerer Points";
   }
 
   @Override
   public int getSpecial() {
-    return spellSlots;
+    return sorcererPoints;
   }
 
   @Override
   public int getSpecialMax() {
-    return maxSpellSlots;
+    return maxSorcererPoints;
   }
 
   @Override
   public void setSpecial(int n) {
-    if (n > maxSpellSlots || n < 0) throw new IllegalArgumentException();
-    spellSlots = n;
+    if (n > maxSorcererPoints || n < 0) throw new IllegalArgumentException();
+    sorcererPoints = n;
   }
 
   @Override
   public String attack(Adventurer other) {
-    int damage = other.applyDamage(rollDamage(8), "Psychic");
-    other.applyCondition("Disadvantage", 1)
-    String action = getName() + " insulted " + other.getName() + " for " + damage + " Psychic Damage";
-    return attackNote + "and applied Disadvantage on " + other.getName() + "'s next attack on their next turn!";
+    String damageType;
+    switch (Utility.rollDice(3)) {
+      case 1:
+        damageType = "Fire";
+        break;
+      case 2:
+        damageType = "Cold";
+        break;
+      case 3:
+        damageType = "Lightning";
+        break;
+    }
+    int damage = other.applyDamage(rollDamage(8) + rollDamage(8), damageType);
+    return getName() + " blasted " + other.getName() + " for " + damage + damageType + " Damage!";
   }
 
   @Override
