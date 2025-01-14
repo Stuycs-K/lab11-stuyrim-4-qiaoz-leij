@@ -50,18 +50,21 @@ public class Sorcerer extends Adventurer {
 
   @Override
   public String support() {
-    
-    if (! consumeSpecial(1)) return getName() + " doesn't have enough Sorceror Points to cast Fireball.";
-    other.applyCondition("Panacea", 1);
-    return getName() + " spent 1 Spell Slot to apply Inspired to " + other.getName() + " for 1 turn!";
-    return support(this);
+    if (! consumeSpecial(1)) return getName() + " doesn't have enough Sorcerer Points to cast Panacea.";
+    String action = getName() + " healed ";
+    for (Adventurer friend : getFriends()) {
+      action += friend.getName() + " for " + friend.restoreHP(Utility.rollDice(8)) + " HP and ";
+    }
+    return action.substring(0, action.length() - 5) + "!";
   }
 
   @Override
   public String specialAttack(Adventurer other) {
-    if (! consumeSpecial(1)) return getName() + " doesn't have enough spell slots to cast Dissonant Whispers.";
-    String action = getName() + " spent 1 Spell Slot to create whispers around " + other.getName() + ", dealing ";
-    int damage = other.applyDamage(rollDamage(8) + rollDamage(8) + rollDamage(8), "Psychic");
-    return action + damage + " Psychic damage!";
+    if (! consumeSpecial(1)) return getName() + " doesn't have enough Sorcerer Points to cast Fireball.";
+    String action = getName() + " spent 1 Sorcerer Point to hurl a fireball at, dealing ";
+    for (Adventurer enemy : getEnemies()) {
+      action += enemy.applyDamage(rollDamage(8), "Fire") + " Fire Damage to " + enemy.getName() + " and ";
+    }
+    return action.substring(0, action.length() - 5) + "!";
   }
 }
