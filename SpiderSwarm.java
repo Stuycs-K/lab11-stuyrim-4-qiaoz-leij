@@ -1,9 +1,7 @@
 public class SpiderSwarm extends Enemies {
 
-    private ArrayList<String> vulnerabilities = new ArrayList<String>();
-    vulnerabilities.add("Fire");
-    private ArrayList<String> resistances = new ArrayList<String>();
-    resistances.add("Bludgeoning");
+    private String[] vulnerabilities = {"Fire"};
+    private Strimg[] resistances = {"Bludgeoning"};
     public SpiderSwarm() {
         super("Spider Swarm", 20, vulnerabilities, resistances, "Webbing", 1, 5);
     }
