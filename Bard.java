@@ -31,9 +31,9 @@ public class Bard extends Adventurer {
   @Override
   public String attack(Adventurer other) {
     int damage = other.applyDamage(rollDamage(8), "Psychic");
-    other.applyCondition("Disadvantage", 1)
+    other.applyCondition("Disadvantage", 1);
     String action = getName() + " insulted " + other.getName() + " for " + damage + " Psychic Damage";
-    return attackNote + "and applied Disadvantage on " + other.getName() + "'s next attack on their next turn!";
+    return action + "and applied Disadvantage on " + other.getName() + "'s next attack on their next turn!";
   }
 
   @Override
@@ -53,6 +53,6 @@ public class Bard extends Adventurer {
     if (! consumeSpecial(1)) return getName() + " doesn't have enough spell slots to cast Dissonant Whispers.";
     String action = getName() + " spent 1 Spell Slot to create whispers around " + other.getName() + ", dealing ";
     int damage = other.applyDamage(rollDamage(8) + rollDamage(8) + rollDamage(8), "Psychic");
-    return damage + " Psychic damage!";
+    return action + damage + " Psychic damage!";
   }
 }

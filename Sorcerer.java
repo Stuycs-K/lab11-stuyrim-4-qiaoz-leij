@@ -30,16 +30,13 @@ public class Sorcerer extends Adventurer {
 
   @Override
   public String attack(Adventurer other) {
-    String damageType;
+    String damageType = "Lightning";
     switch (Utility.rollDice(3)) {
       case 1:
         damageType = "Fire";
         break;
       case 2:
         damageType = "Cold";
-        break;
-      case 3:
-        damageType = "Lightning";
         break;
     }
     int damage = other.applyDamage(rollDamage(8) + rollDamage(8), damageType);
@@ -63,6 +60,6 @@ public class Sorcerer extends Adventurer {
     if (! consumeSpecial(1)) return getName() + " doesn't have enough spell slots to cast Dissonant Whispers.";
     String action = getName() + " spent 1 Spell Slot to create whispers around " + other.getName() + ", dealing ";
     int damage = other.applyDamage(rollDamage(8) + rollDamage(8) + rollDamage(8), "Psychic");
-    return damage + " Psychic damage!";
+    return action + damage + " Psychic damage!";
   }
 }

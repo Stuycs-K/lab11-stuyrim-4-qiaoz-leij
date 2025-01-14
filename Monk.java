@@ -58,7 +58,7 @@ public class Monk extends Adventurer {
     if (! consumeSpecial(1)) return getName() + " doesn't have enough Ki Points to perform Flurry of Blows.";
     String action = getName() + " spent 1 Ki Point to punch " + other.getName() + " three times for ";
     for (int i = 0; i < 2; i++) action += other.applyDamage(rollDamage(8), "Blugeoning") + ", ";
-    action += "and " + other.applyDamage(rollDamage(8), "Blugeoning") + " Blugeoning Damage!"
+    action += "and " + other.applyDamage(rollDamage(8), "Blugeoning") + " Blugeoning Damage!";
     return action;
   }
 }
