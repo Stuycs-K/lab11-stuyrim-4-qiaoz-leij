@@ -1,6 +1,6 @@
 public class DireWolf extends Enemies {
-    private ArrayList<String> vulnerabilities = new ArrayList<String>();
-    private ArrayList<String> resistances = new ArrayList<String>();
+    private String[] vulnerabilities = {};
+    private String[] resistances = {};
 
     public DireWolf() {
         super("Dire Wolf", 25, vulnerabilities, resistances, "Bloodlust", 2, 7);

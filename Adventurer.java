@@ -139,6 +139,18 @@ public abstract class Adventurer {
     this.HP = health;
   }
 
+  public int restoreHP(int heal) {
+    int healthRestored;
+    if (HP + heal < maxHP) {
+      HP = heal + HP;
+      healthRestored = heal;
+    } else {
+      healthRestored = maxHP - HP;
+      HP = maxHP;
+    }
+    return healthRestored;
+  }
+
   // Condition Effects
 
   public void endTurn() {
