@@ -63,13 +63,14 @@ public abstract class Adventurer {
   standard methods
   */
 
-  public void applyDamage(int amount, String type) {
+  public int applyDamage(int amount, String type) {
     Condition block = getCondition("Block");
     // Vulnerabilities and Resistances are applied before block
     if (vulnerabilities.contains(type)) amount *= 2;
     if (resistances.contains(type)) amount /= 2;
     if (block != null) amount -= block.decreaseLevel(amount);
     this.HP -= amount;
+    return amount;
   }
 
   public int rollDamage(int size) {
