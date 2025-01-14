@@ -32,11 +32,11 @@ public class DireWolf extends Enemies {
     public String specialAttack(Adventurer other) {
         String condition = "Prone";
         int duration = 1;
-        int dmg = (int) (Math.random() * 6 + Math.random() * 6) + 2;
+        int dmg = rollDamage(6) + rollDamage(6);
         if (getSpecial() < 4) {
             return "Too little mana; " + attack(other);
           } else {
-            setSpecial(getSpecial()-2);
+            setSpecial(getSpecial()-4);
             other.applyDamage(dmg);
             other.applyCondition(condition, duration);
           }
