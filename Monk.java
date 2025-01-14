@@ -31,7 +31,7 @@ public class Monk extends Adventurer {
   @Override
   public String attack(Adventurer other) {
     int damage = other.applyDamage(rollDamage(8), "Bludgeoning");
-    String action = getName() + " punched " + other.getName() + " for " + damage + " damage";
+    String action = getName() + " punched " + other.getName() + " for " + damage + " Bludgeoning Damage";
     if (Utility.rollDice(2) == 1) {
       restoreSpecial(1);
       action += " and restored 1 Ki Point";
@@ -58,7 +58,7 @@ public class Monk extends Adventurer {
     if (! consumeSpecial(1)) return "The Monk doesn't have enough Ki Points to perform Flurry of Blows.";
     String action = "The Monk spent 1 Ki Point to punch " + other.getName() + " three times for ";
     for (int i = 0; i < 2; i++) action += other.applyDamage(rollDamage(8), "Blugeoning") + ", ";
-    action += "and " + other.applyDamage(rollDamage(8), "Blugeoning") + " damage!"
+    action += "and " + other.applyDamage(rollDamage(8), "Blugeoning") + " Blugeoning Damage!"
     return action;
   }
 }
