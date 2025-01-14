@@ -45,13 +45,15 @@ public class Sorcerer extends Adventurer {
 
   @Override
   public String support(Adventurer other) {
-    if (! consumeSpecial(1)) return getName() + " doesn't have enough spell slots to cast Bardic Inspiration.";
-    other.applyCondition("Inspired", 1);
-    return getName() + " spent 1 Spell Slot to apply Inspired to " + other.getName() + " for 1 turn!";
+    return support();
   }
 
   @Override
   public String support() {
+    
+    if (! consumeSpecial(1)) return getName() + " doesn't have enough Sorceror Points to cast Fireball.";
+    other.applyCondition("Panacea", 1);
+    return getName() + " spent 1 Spell Slot to apply Inspired to " + other.getName() + " for 1 turn!";
     return support(this);
   }
 
