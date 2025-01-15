@@ -1,10 +1,7 @@
 public class Boss extends Enemies {
 
-  private String[] vulnerabilities = {"Psychic"};
-  private String[] resistances = {"Bludgeoning", "Cold", "Fire", "Lightning"};
-
   public Boss() {
-      super("Specter", 40, vulnerabilities, resistances, "Ghastly Points", 0, 9);
+      super("Specter", 40, new String[]{"Psychic"}, new String[]{"Bludgeoning", "Cold", "Fire", "Lightning"}, "Ghastly Points", 0, 9);
   }
 
   @Override

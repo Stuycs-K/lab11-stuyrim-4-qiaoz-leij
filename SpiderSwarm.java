@@ -1,9 +1,7 @@
 public class SpiderSwarm extends Enemies {
 
-    private String[] vulnerabilities = {"Fire"};
-    private Strimg[] resistances = {"Bludgeoning"};
     public SpiderSwarm() {
-        super("Spider Swarm", 20, vulnerabilities, resistances, "Webbing", 1, 5);
+        super("Spider Swarm", 20, new String[]{"Fire"}, new String[]{"Bludgeoning"}, "Webbing", 1, 5);
     }
 
     @Override

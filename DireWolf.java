@@ -1,9 +1,7 @@
 public class DireWolf extends Enemies {
-    private String[] vulnerabilities = {};
-    private String[] resistances = {};
 
     public DireWolf() {
-        super("Dire Wolf", 25, vulnerabilities, resistances, "Bloodlust", 2, 7);
+        super("Dire Wolf", 25, new String[]{}, new String[]{}, "Bloodlust", 2, 7);
     }
 
     public String uniqueSupport() {
