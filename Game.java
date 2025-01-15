@@ -1,55 +1,49 @@
 import java.util.*;
-public class Game{
+public class Game {
   private static final int WIDTH = 80;
   private static final int HEIGHT = 30;
   private static final int BORDER_COLOR = Text.BLACK;
-  private static final int BORDER_BACKGROUND = Text.WHITE + Text.BACKGROUND;
+  private static final int BORDER_BACKGROUND = Text.BLACK + Text.BACKGROUND;
 
   public static void main(String[] args) {
     run();
   }
 
+  private static void drawLine(char start, char middle, char end) {
+    System.out.print(start);
+    for (int i = 2; i < WIDTH; i++) System.out.print(middle);
+    System.out.print(end);
+  }
+  
+  private static void drawSides(int start, int end) {
+    for (int i = start; i < end; i++) {
+      Text.printAt(1, i, "│");
+      Text.printAt(WIDTH, i, "│");
+    }
+  }
+
   //Display the borders of your screen that will not change.
   //Do not write over the blank areas where text will appear or parties will appear.
   public static void drawBackground(){
+    // System.out.print(Text.changeColor(BORDER_COLOR));
+    // System.out.print(Text.changeColor(BORDER_BACKGROUND));
     Text.clear();
     Text.hideCursor();
     Text.go(1, 1);
-    System.out.print("┌");
-    for (int i = 2; i < WIDTH; i++) System.out.print("─");
-    System.out.print("┐");
-
-    for (int i = 2; i < 7; i++) {
-      Text.printAt(1, i, "│");
-      Text.printAt(WIDTH, i, "│");
-    }
-
+    drawLine('┌', '─', '┐');
+    drawSides(2, 7);
     Text.go(1, 7);
-    System.out.print("├");
-    for (int i = 2; i < WIDTH; i++) System.out.print("─");
-    System.out.print("┤");
-
-    for (int i = 8; i < HEIGHT - 8; i++) {
-      Text.printAt(1, i, "│");
-      Text.printAt(WIDTH, i, "│");
-    }
-
+    drawLine('├', '─', '┤');
+    drawSides(8, HEIGHT - 8);
     Text.go(1, HEIGHT - 8);
-    System.out.print("├");
-    for (int i = 2; i < WIDTH; i++) System.out.print("─");
-    System.out.print("┤");
-
-    for (int i = HEIGHT - 7; i < HEIGHT - 2; i++) {
-      Text.printAt(1, i, "│");
-      Text.printAt(WIDTH, i, "│");
-    }
-
+    drawLine('├', '─', '┤');
+    drawSides(HEIGHT - 7, HEIGHT - 2);
     Text.go(1, HEIGHT - 2);
-    System.out.print("└");
-    for (int i = 2; i < WIDTH; i++) System.out.print("─");
-    System.out.print("┘");
-
-    Text.showCursor();
+    drawLine('├', '─', '┤');
+    drawSides(HEIGHT - 1, HEIGHT);
+    Text.go(1, HEIGHT);
+    drawLine('└', '─', '┘');
+    Text.reset();
   }
 
   //Display a line of text starting at
@@ -83,7 +77,7 @@ public class Game{
     //return a random adventurer (choose between all available subclasses)
     //feel free to overload this method to allow specific names/stats.
     public static Adventurer createRandomAdventurer(){
-      return new CodeWarrior("Bob"+(int)(Math.random()*100));
+      return new Monk("Bob"+(int)(Math.random()*100));
     }
 
     /*Display a List of 2-4 adventurers on the rows row through row+3 (4 rows max)
@@ -165,7 +159,8 @@ public class Game{
 
     //Adventurers you control:
     //Make an ArrayList of Adventurers and add 2-4 Adventurers to it.
-    ArrayList<Adventurer> party = new ArrayList<>();
+    ArrayList<Adventurer> party = new ArrayList<Adventurer>();
+    party.add(new Monk("Gerald"));
     /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
     //YOUR CODE HERE
     /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
