@@ -12,9 +12,44 @@ public class Game{
   //Display the borders of your screen that will not change.
   //Do not write over the blank areas where text will appear or parties will appear.
   public static void drawBackground(){
-    /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
-    //YOUR CODE HERE
-    /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
+    Text.clear();
+    Text.hideCursor();
+    Text.go(1, 1);
+    System.out.print("┌");
+    for (int i = 2; i < WIDTH; i++) System.out.print("─");
+    System.out.print("┐");
+
+    for (int i = 2; i < 7; i++) {
+      Text.printAt(1, i, "│");
+      Text.printAt(WIDTH, i, "│");
+    }
+
+    Text.go(1, 7);
+    System.out.print("├");
+    for (int i = 2; i < WIDTH; i++) System.out.print("─");
+    System.out.print("┤");
+
+    for (int i = 8; i < HEIGHT - 8; i++) {
+      Text.printAt(1, i, "│");
+      Text.printAt(WIDTH, i, "│");
+    }
+
+    Text.go(1, HEIGHT - 8);
+    System.out.print("├");
+    for (int i = 2; i < WIDTH; i++) System.out.print("─");
+    System.out.print("┤");
+
+    for (int i = HEIGHT - 7; i < HEIGHT - 2; i++) {
+      Text.printAt(1, i, "│");
+      Text.printAt(WIDTH, i, "│");
+    }
+
+    Text.go(1, HEIGHT - 2);
+    System.out.print("└");
+    for (int i = 2; i < WIDTH; i++) System.out.print("─");
+    System.out.print("┘");
+
+    Text.showCursor();
   }
 
   //Display a line of text starting at
@@ -140,7 +175,7 @@ public class Game{
     int whichOpponent = 0;
     int turn = 0;
     String input = "";//blank to get into the main loop.
-    Scanner in = new Scanner(System.in);
+    Scanner in = new  Scanner(System.in);
     //Draw the window border
 
     //You can add parameters to draw screen!

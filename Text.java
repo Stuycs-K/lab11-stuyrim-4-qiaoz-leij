@@ -33,8 +33,13 @@ public class Text{
   }
 
   /*Move the cursor to a specified row/col on the terminal*/
-  public static void go(int row,int col){
+  public static void go(int col,int row){
     System.out.print("\u001b[" + row + ";" + col + "f");
+  }
+
+  public static void printAt(int col, int row, String string) {
+    go(col, row);
+    System.out.print(string);
   }
 
   /*Erases all text on the terminal.*/
