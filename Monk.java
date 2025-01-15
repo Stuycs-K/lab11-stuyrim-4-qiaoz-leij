@@ -30,14 +30,13 @@ public class Monk extends Adventurer {
 
   @Override
   public String attack(Adventurer other) {
-    int damage = rollDamage(8);
-    other.applyDamage(damage, "Bludgeoning");
-    String attackNote = getName() + " punched " + other.getName() + " for " + damage + " damage";
+    int damage = other.applyDamage(rollDamage(8), "Bludgeoning");
+    String action = getName() + " punched " + other.getName() + " for " + damage + " Bludgeoning Damage";
     if (Utility.rollDice(2) == 1) {
       restoreSpecial(1);
-      attackNote += " and restored 1 Ki Point";
+      action += " and restored 1 Ki Point";
     }
-    return attackNote;
+    return action + "!";
   }
 
   @Override
@@ -47,13 +46,19 @@ public class Monk extends Adventurer {
 
   @Override
   public String support() {
-    if (kiPoints < 1) return "The Monk doesn't have enough Ki Points to perform Patient Defense";
-    
-    return "";
+    if (! consumeSpecial(1)) return getName() + " doesn't have enough Ki Points to perform Patient Defense.";
+    for (Adventurer adventurer : getFriends()) {
+      adventurer.applyCondition("Block", 1, 5);
+    }
+    return getName() + " spent 1 Ki Point to apply 5 Block to all allies for 1 turn!";
   }
 
   @Override
   public String specialAttack(Adventurer other) {
-    return "";
+    if (! consumeSpecial(1)) return getName() + " doesn't have enough Ki Points to perform Flurry of Blows.";
+    String action = getName() + " spent 1 Ki Point to punch " + other.getName() + " three times for ";
+    for (int i = 0; i < 2; i++) action += other.applyDamage(rollDamage(8), "Blugeoning") + ", ";
+    action += "and " + other.applyDamage(rollDamage(8), "Blugeoning") + " Blugeoning Damage!";
+    return action;
   }
 }
