@@ -37,11 +37,6 @@ public class Text{
     System.out.print("\u001b[" + row + ";" + col + "f");
   }
 
-  public static void printAt(int col, int row, String string) {
-    go(col, row);
-    System.out.print(string);
-  }
-
   /*Erases all text on the terminal.*/
   public static void clear(){
     System.out.print("\u001b[2J");

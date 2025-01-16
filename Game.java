@@ -14,11 +14,11 @@ public class Game {
     for (int i = 2; i < WIDTH; i++) System.out.print(middle);
     System.out.print(end);
   }
-  
+
   private static void drawSides(int start, int end) {
     for (int i = start; i < end; i++) {
-      Text.printAt(1, i, "│");
-      Text.printAt(WIDTH, i, "│");
+      drawText("│", i, 1);
+      drawText("│", i, WIDTH);
     }
   }
 
@@ -50,9 +50,8 @@ public class Game {
   //(columns and rows start at 1 (not zero) in the terminal)
   //use this method in your other text drawing methods to make things simpler.
   public static void drawText(String s,int startRow, int startCol){
-    /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
-    //YOUR CODE HERE
-    /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
+    Text.go(startCol, startRow);
+    System.out.print(s);
   }
 
   /*Use this method to place text on the screen at a particular location.
@@ -66,9 +65,21 @@ public class Game {
   *@param height the number of rows
   */
   public static void TextBox(int row, int col, int width, int height, String text){
-    /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
-    //YOUR CODE HERE
-    /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
+    while (text.length() >= width && height != 0) {
+      Text.go(col, row);
+      System.out.print(text.substring(0, width));
+      text = text.substring(width);
+      row++;
+      height--;
+    }
+    if (height != 0) {
+      System.out.print(text);
+      for (int i = 0; i < width - text.length(); i++) System.out.print(" ");
+      height--;
+    }
+    while (height > 0) {
+      for (int i = 0; i < width; i++) System.out.print(" ");
+    }
   }
 
 
