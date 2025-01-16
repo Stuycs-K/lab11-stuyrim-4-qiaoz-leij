@@ -34,16 +34,17 @@ public class Game {
     drawSides(2, 6);
     Text.go(1, 6);
     drawLine('├', '─', '┤');
-    drawSides(7, HEIGHT - 7);
-    Text.go(1, HEIGHT - 7);
+    drawSides(7, HEIGHT - 8);
+    Text.go(1, HEIGHT - 8);
     drawLine('├', '─', '┤');
-    drawSides(HEIGHT - 6, HEIGHT - 2);
-    Text.go(1, HEIGHT - 2);
+    drawSides(HEIGHT - 7, HEIGHT - 3);
+    Text.go(1, HEIGHT - 3);
     drawLine('├', '─', '┤');
-    drawSides(HEIGHT - 1, HEIGHT);
+    drawSides(HEIGHT - 2, HEIGHT);
     Text.go(1, HEIGHT);
     drawLine('└', '─', '┘');
     Text.reset();
+    Text.hideCursor();
   }
 
   //Display a line of text starting at
@@ -106,10 +107,12 @@ public class Game {
   * ***THIS ROW INTENTIONALLY LEFT BLANK***
   */
   public static void drawParty(ArrayList<Adventurer> party, int startRow){
-    for (int i = 0; i < 3; i++) {
-      TextBox(startRow, 2 + i * 26, 26, 1, party.get(i).getName());
-      TextBox(startRow + 1, 2 + i * 26, 26, 1, "HP: " + party.get(i).getHP());
-      TextBox(startRow + 2, 2 + i * 26, 26, 1, party.get(i).getSpecialName() + ": " + party.get(i).getSpecial());
+    int width = 78 / party.size();
+    for (int i = 0; i < party.size(); i++) {
+      TextBox(startRow, 2 + i * width, width, 1, party.get(i).getName());
+      TextBox(startRow + 1, 2 + i * width, width, 1, "HP: " + colorByPercent(party.get(i).getHP(), party.get(i).getmaxHP()));
+      TextBox(startRow + 2, 2 + i * width, width, 1, party.get(i).getSpecialName() + ": " + party.get(i).getSpecial());
+      TextBox(startRow + 3, 2 + i * width, width, 1, party.get(i).getFirstCondition());
     }
   }
 
@@ -128,26 +131,26 @@ public class Game {
   //Display the party and enemies
   //Do not write over the blank areas where text will appear.
   //Place the cursor at the place where the user will by typing their input at the end of this method.
-  public static void drawScreen(ArrayList<Adventurer> party){
+  public static void drawScreen(ArrayList<Adventurer> party, ArrayList<Adventurer> enemies){
 
     drawBackground();
 
     drawParty(party, 2);
 
-    //draw enemy party
+    drawParty(enemies, HEIGHT - 7);
 
   }
 
   public static String userInput(Scanner in){
-      //Move cursor to prompt location
-
-      //show cursor
-
-      String input = in.nextLine();
-
-      //clear the text that was written
-
-      return input;
+    //Move cursor to prompt location
+    Text.go(2, HEIGHT - 1);
+    System.out.print('>');
+    //show cursor
+    Text.showCursor();
+    String input = in.nextLine();
+    //clear the text that was written
+    for (int i = 0; i < WIDTH - 3; i++) System.out.print(" ");
+    return input;
   }
 
   public static void quit(){
@@ -189,12 +192,13 @@ public class Game {
     //Draw the window border
 
     //You can add parameters to draw screen!
-    drawScreen(party);//initial state.
+    drawScreen(party, enemies);//initial state.
 
     //Main loop
 
     //display this prompt at the start of the game.
     String preprompt = "Enter command for "+party.get(whichPlayer)+": attack/special/quit";
+    drawText(preprompt, HEIGHT - 2, 2);
 
     while(! (input.equalsIgnoreCase("q") || input.equalsIgnoreCase("quit"))){
       //Read user input
@@ -295,7 +299,7 @@ public class Game {
       }
 
       //display the updated screen after input has been processed.
-      drawScreen(party);
+      drawScreen(party, enemies);
 
 
     }//end of main game loop

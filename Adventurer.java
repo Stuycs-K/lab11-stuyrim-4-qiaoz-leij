@@ -153,6 +153,13 @@ public abstract class Adventurer {
 
   // Condition Effects
 
+  public String getFirstCondition() {
+    if (conditions.size() != 0) {
+      return conditions.get(0).getName();
+    }
+    return "";
+  }
+
   public void endTurn() {
     if (hasCondition("Poisoned")) applyDamage(Utility.rollDice(4), "Acid");
     if (hasCondition("Bleeding") && Utility.rollDice(2) == 1) applyDamage(Utility.rollDice(8), "Piercing");
