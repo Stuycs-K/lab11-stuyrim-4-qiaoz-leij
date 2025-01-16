@@ -88,7 +88,14 @@ public class Game {
     //return a random adventurer (choose between all available subclasses)
     //feel free to overload this method to allow specific names/stats.
     public static Adventurer createRandomAdventurer(){
-      return new Monk("Bob"+(int)(Math.random()*100));
+      double x = Math.random();
+      if (x < 0.33) {
+        return new Monk("Monk");
+      } else if (x < 0.67) {
+        return new Bard("Bard");
+      } else {
+        return new Sorcerer("Sorcerer");
+      }
     }
 
     /*Display a List of 2-4 adventurers on the rows row through row+3 (4 rows max)
@@ -165,7 +172,7 @@ public class Game {
     //start with 1 boss and modify the code to allow 2-3 adventurers later.
     ArrayList<Adventurer>enemies = new ArrayList<Adventurer>();
     /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
-    //YOUR CODE HERE
+    enemies.add(new Boss());
     /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
 
     //Adventurers you control:
@@ -173,7 +180,9 @@ public class Game {
     ArrayList<Adventurer> party = new ArrayList<Adventurer>();
     party.add(new Monk("Gerald"));
     /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
-    //YOUR CODE HERE
+    party.add(new Monk("Monk"));
+    party.add(new Bard("Bard"));
+    party.add(new Sorcerer("Sorcerer"));
     /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
 
     boolean partyTurn = true;
@@ -205,19 +214,29 @@ public class Game {
         //Process user input for the last Adventurer:
         if(input.equals("attack") || input.equals("a")){
           /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
-          //YOUR CODE HERE
+          System.out.print("Who to attack? Enter number: ");
+          while (userInput.nextInt() < 0 || userInput.nextInt() > enemies.size()) {
+            System.out.print("Invalid index. Enter again: ");
+          }
+          whichOpponent = userInput.nextInt();
+          party.get(whichPlayer).attack(enemies.get(whichOpponent));
           /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
         }
         else if(input.equals("special") || input.equals("sp")){
           /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
-          //YOUR CODE HERE
+          System.out.print("Who to special attack? Enter number: ");
+          while (userInput.nextInt() < 0 || userInput.nextInt() > enemies.size()) {
+            System.out.print("Invalid index. Enter again: ");
+          }
+          whichOpponent = userInput.nextInt();
+          party.get(whichPlayer).specialAttack(enemies.get(whichOpponent));
           /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
         }
         else if(input.startsWith("su ") || input.startsWith("support ")){
           //"support 0" or "su 0" or "su 2" etc.
           //assume the value that follows su  is an integer.
           /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
-          //YOUR CODE HERE
+          party.get(whichPlayer).support(party.get(0));
           /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
         }
 
