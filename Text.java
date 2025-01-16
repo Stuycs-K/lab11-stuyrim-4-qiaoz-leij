@@ -20,9 +20,9 @@ public class Text{
 
   /*Reset colors*/
   public static void reset(){
+    showCursor();
     System.out.print("\u001b[0m");
   }
-
 
   public static void hideCursor(){
     System.out.print("\u001b[?25l");
@@ -33,13 +33,22 @@ public class Text{
   }
 
   /*Move the cursor to a specified row/col on the terminal*/
-  public static void go(int row,int col){
+  public static void go(int col,int row){
     System.out.print("\u001b[" + row + ";" + col + "f");
+  }
+
+  public static void printAt(int col, int row, String string) {
+    go(col, row);
+    System.out.print(string);
   }
 
   /*Erases all text on the terminal.*/
   public static void clear(){
     System.out.print("\u001b[2J");
+  }
+
+  public static String changeColor(int color) {
+    return "\u001b[" + color + "m";
   }
 
   /*Overloaded Colorize methods.
@@ -53,29 +62,5 @@ public class Text{
   }
   public static String colorize(String text,int c1,int c2,int c3){
     return ("\u001b[" + c1 + ";" + c2 + ";" + c3 + "m"+text+"\u001b[0m");
-  }
-
-
-  //Tested and working in:
-  //git-bash (windows 10),    wsl (windows 10+11),   powershell windows 11
-  public static void main(String[] args) {
-    hideCursor();
-    clear();
-
-    go(1,1);
-    System.out.println("Abra cadabra hocus pocus...");
-    System.out.println("Abra "+colorize("cadabra",BOLD,YELLOW+BRIGHT,BLUE+BACKGROUND)+" hocus pocus...");
-    System.out.println(colorize("Abra",BOLD,BLACK,YELLOW+BACKGROUND+BRIGHT)+" cadabra hocus pocus...");
-
-    go(1,1);//top left
-    System.out.print("TOP!");//overwrites the "Abra" on line 1
-
-    go(4,30);
-    System.out.print("right?");
-
-    go(5,1);//put the terminal at the end of the output again before the program ends.
-
-    reset();
-    showCursor();
   }
 }
