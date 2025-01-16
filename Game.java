@@ -31,13 +31,13 @@ public class Game {
     Text.hideCursor();
     Text.go(1, 1);
     drawLine('┌', '─', '┐');
-    drawSides(2, 7);
-    Text.go(1, 7);
+    drawSides(2, 6);
+    Text.go(1, 6);
     drawLine('├', '─', '┤');
-    drawSides(8, HEIGHT - 8);
-    Text.go(1, HEIGHT - 8);
+    drawSides(7, HEIGHT - 7);
+    Text.go(1, HEIGHT - 7);
     drawLine('├', '─', '┤');
-    drawSides(HEIGHT - 7, HEIGHT - 2);
+    drawSides(HEIGHT - 6, HEIGHT - 2);
     Text.go(1, HEIGHT - 2);
     drawLine('├', '─', '┤');
     drawSides(HEIGHT - 1, HEIGHT);
@@ -73,6 +73,7 @@ public class Game {
       height--;
     }
     if (height != 0) {
+      Text.go(col, row);
       System.out.print(text);
       for (int i = 0; i < width - text.length(); i++) System.out.print(" ");
       height--;
@@ -82,37 +83,35 @@ public class Game {
     }
   }
 
-
-
-
-    //return a random adventurer (choose between all available subclasses)
-    //feel free to overload this method to allow specific names/stats.
-    public static Adventurer createRandomAdventurer(){
-      double x = Math.random();
-      if (x < 0.33) {
-        return new Monk("Monk");
-      } else if (x < 0.67) {
-        return new Bard("Bard");
-      } else {
-        return new Sorcerer("Sorcerer");
-      }
+  //return a random adventurer (choose between all available subclasses)
+  //feel free to overload this method to allow specific names/stats.
+  public static Adventurer createRandomAdventurer(){
+    double x = Math.random();
+    if (x < 0.33) {
+      return new Monk("Monk");
+    } else if (x < 0.67) {
+      return new Bard("Bard");
+    } else {
+      return new Sorcerer("Sorcerer");
     }
+  }
 
-    /*Display a List of 2-4 adventurers on the rows row through row+3 (4 rows max)
-    *Should include Name HP and Special on 3 separate lines.
-    *Note there is one blank row reserved for your use if you choose.
-    *Format:
-    *Bob          Amy        Jun
-    *HP: 10       HP: 15     HP:19
-    *Caffeine: 20 Mana: 10   Snark: 1
-    * ***THIS ROW INTENTIONALLY LEFT BLANK***
-    */
-    public static void drawParty(ArrayList<Adventurer> party,int startRow){
-
-      /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
-      //YOUR CODE HERE
-      /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
+  /*Display a List of 2-4 adventurers on the rows row through row+3 (4 rows max)
+  *Should include Name HP and Special on 3 separate lines.
+  *Note there is one blank row reserved for your use if you choose.
+  *Format:
+  *Bob          Amy        Jun
+  *HP: 10       HP: 15     HP:19
+  *Caffeine: 20 Mana: 10   Snark: 1
+  * ***THIS ROW INTENTIONALLY LEFT BLANK***
+  */
+  public static void drawParty(ArrayList<Adventurer> party, int startRow){
+    for (int i = 0; i < 3; i++) {
+      TextBox(startRow, 2 + i * 26, 26, 1, party.get(i).getName());
+      TextBox(startRow + 1, 2 + i * 26, 26, 1, "HP: " + party.get(i).getHP());
+      TextBox(startRow + 2, 2 + i * 26, 26, 1, party.get(i).getSpecialName() + ": " + party.get(i).getSpecial());
     }
+  }
 
 
   //Use this to create a colorized number string based on the % compared to the max value.
@@ -129,11 +128,11 @@ public class Game {
   //Display the party and enemies
   //Do not write over the blank areas where text will appear.
   //Place the cursor at the place where the user will by typing their input at the end of this method.
-  public static void drawScreen(){
+  public static void drawScreen(ArrayList<Adventurer> party){
 
     drawBackground();
 
-    //draw player party
+    drawParty(party, 2);
 
     //draw enemy party
 
@@ -175,7 +174,6 @@ public class Game {
     //Adventurers you control:
     //Make an ArrayList of Adventurers and add 2-4 Adventurers to it.
     ArrayList<Adventurer> party = new ArrayList<Adventurer>();
-    party.add(new Monk("Gerald"));
     /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
     party.add(new Monk("Monk"));
     party.add(new Bard("Bard"));
@@ -191,7 +189,7 @@ public class Game {
     //Draw the window border
 
     //You can add parameters to draw screen!
-    drawScreen();//initial state.
+    drawScreen(party);//initial state.
 
     //Main loop
 
@@ -297,7 +295,7 @@ public class Game {
       }
 
       //display the updated screen after input has been processed.
-      drawScreen();
+      drawScreen(party);
 
 
     }//end of main game loop
