@@ -126,9 +126,6 @@ public class Game {
   }
 
 
-
-
-
   //Display the party and enemies
   //Do not write over the blank areas where text will appear.
   //Place the cursor at the place where the user will by typing their input at the end of this method.
@@ -190,7 +187,7 @@ public class Game {
     int whichOpponent = 0;
     int turn = 0;
     String input = "";//blank to get into the main loop.
-    Scanner in = new  Scanner(System.in);
+    Scanner in = new Scanner(System.in);
     //Draw the window border
 
     //You can add parameters to draw screen!
@@ -215,20 +212,20 @@ public class Game {
         if(input.equals("attack") || input.equals("a")){
           /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
           System.out.print("Who to attack? Enter number: ");
-          while (userInput.nextInt() < 0 || userInput.nextInt() > enemies.size()) {
+          while (in.nextInt() < 0 || in.nextInt() > enemies.size()) {
             System.out.print("Invalid index. Enter again: ");
           }
-          whichOpponent = userInput.nextInt();
+          whichOpponent = in.nextInt();
           party.get(whichPlayer).attack(enemies.get(whichOpponent));
           /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
         }
         else if(input.equals("special") || input.equals("sp")){
           /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
           System.out.print("Who to special attack? Enter number: ");
-          while (userInput.nextInt() < 0 || userInput.nextInt() > enemies.size()) {
+          while (in.nextInt() < 0 || in.nextInt() > enemies.size()) {
             System.out.print("Invalid index. Enter again: ");
           }
-          whichOpponent = userInput.nextInt();
+          whichOpponent = in.nextInt();
           party.get(whichPlayer).specialAttack(enemies.get(whichOpponent));
           /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
         }
@@ -236,7 +233,17 @@ public class Game {
           //"support 0" or "su 0" or "su 2" etc.
           //assume the value that follows su  is an integer.
           /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
-          party.get(whichPlayer).support(party.get(0));
+          if (party.get(whichPlayer).getName().equals("Bard")) {
+            System.out.print("Who to support? Enter number: ");
+            while (in.nextInt() < 0 || in.nextInt() > party.size()) {
+              System.out.print("Invalid index. Enter again: ");
+            }
+            whichOpponent = in.nextInt();
+            party.get(whichPlayer).support(party.get(whichOpponent));
+          } else {
+            party.get(whichPlayer).support(party.get(0));
+          }
+
           /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
         }
 
