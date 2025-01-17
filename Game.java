@@ -195,6 +195,8 @@ public class Game {
     int turn = 0;
     String input = "";//blank to get into the main loop.
     Scanner in = new Scanner(System.in);
+    Adventurer currentAdventurer;
+    String action;
     //Draw the window border
 
     //You can add parameters to draw screen!
@@ -271,40 +273,37 @@ public class Game {
           whichOpponent = 0;
         }
         //done with one party member
-      }else{
-        //not the party turn!
-
-
-        //enemy attacks a randomly chosen person with a randomly chosen attack.z`
-        //Enemy action choices go here!
-        /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
-        //YOUR CODE HERE
-        /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
-
-
-        //Decide where to draw the following prompt:
-        String prompt = "press enter to see next turn";
-
+      } else {
+        currentAdventurer = enemies.get(whichPlayer);
+        switch (Utility.rollDice(3)) {
+          case 1:
+            action = currentAdventurer.attack(currentAdventurer.getRandomEnemy());
+            break;
+          case 2:
+            action = currentAdventurer.support(currentAdventurer.getRandomFriend());
+            break;
+          case 3:
+            action = currentAdventurer.specialAttack(currentAdventurer.getRandomEnemy());
+            break;
+        }
+        prompt("Press enter to see next turn");
+        userInput(in);
         whichOpponent++;
+        currentAdventurer.endTurn();
+      } // End of one enemy
 
-      }//end of one enemy.
-
-      //modify this if statement.
-      if(!partyTurn && whichOpponent >= enemies.size()){
-        //THIS BLOCK IS TO END THE ENEMY TURN
-        //It only triggers after the last enemy goes.
+      if (!partyTurn && whichOpponent >= enemies.size()){
+        // THIS BLOCK IS TO END THE ENEMY TURN
+        // It only triggers after the last enemy goes.
         whichPlayer = 0;
         turn++;
-        partyTurn=true;
-        //display this prompt before player's turn
-        String prompt = "Enter command for "+party.get(whichPlayer)+": attack/special/quit";
+        partyTurn = true;
+        prompt("Enter command for "+party.get(whichPlayer)+": attack/special/quit");
       }
 
       //display the updated screen after input has been processed.
       drawScreen(party, enemies);
-
-
-    }//end of main game loop
+    } // End of main game loop
 
 
     //After quit reset things:

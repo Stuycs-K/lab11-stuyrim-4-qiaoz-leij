@@ -69,7 +69,7 @@ public abstract class Adventurer {
     if (vulnerabilities.contains(type)) amount *= 2;
     if (resistances.contains(type)) amount /= 2;
     if (block != null) amount -= block.decreaseLevel(amount);
-    this.HP -= amount;
+    amount = Math.min(this.HP, amount);
     return amount;
   }
 
@@ -164,6 +164,10 @@ public abstract class Adventurer {
     if (hasCondition("Poisoned")) applyDamage(Utility.rollDice(4), "Acid");
     if (hasCondition("Bleeding") && Utility.rollDice(2) == 1) applyDamage(Utility.rollDice(8), "Piercing");
     decreaseDurations(1);
+    if (HP == 0) {
+      for (Adventurer friend : friends) friend.removeFriend(this);
+      for (Adventurer enemy : enemies) enemy.removeEnemy(this);
+    }
   }
 
   public void decreaseDurations(int amount) {
@@ -240,6 +244,14 @@ public abstract class Adventurer {
     return friends;
   }
 
+  public void setEnemies(ArrayList<Adventurer> enemies) {
+    this.enemies = enemies;
+  }
+
+  public void setFriends(ArrayList<Adventurer> friends) {
+    this.friends = friends;
+  }
+
   public void removeEnemy(Adventurer enemy) {
     enemies.remove(enemy);
   }
@@ -248,11 +260,11 @@ public abstract class Adventurer {
     friends.remove(friend);
   }
 
-  public void addEnemy(Adventurer enemy) {
-    enemies.add(enemy);
+  public Adventurer getRandomFriend() {
+    return friends.get(Utility.rollDice(friends.size()) - 1);
   }
 
-  public void addFriend(Adventurer friend) {
-    friends.add(friend);
+  public Adventurer getRandomEnemy() {
+    return enemies.get(Utility.rollDice(enemies.size()) - 1);
   }
 }
