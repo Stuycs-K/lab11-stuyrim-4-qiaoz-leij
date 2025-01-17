@@ -4,6 +4,7 @@ public class Game {
   private static final int HEIGHT = 30;
   private static final int BORDER_COLOR = Text.BLACK;
   private static final int BORDER_BACKGROUND = Text.BLACK + Text.BACKGROUND;
+  private static LinkedList<String> actions;
 
   public static void main(String[] args) {
     run();
@@ -19,6 +20,14 @@ public class Game {
     for (int i = start; i < end; i++) {
       drawText("│", i, 1);
       drawText("│", i, WIDTH);
+    }
+  }
+
+  private static void drawActions() {
+    int row = 7;
+    if (actions.size() > HEIGHT - 15) actions.remove(0);
+    for (String action : actions) {
+      TextBox(row, 2, WIDTH - 2, 1, action);
     }
   }
 
@@ -116,7 +125,6 @@ public class Game {
     }
   }
 
-
   //Use this to create a colorized number string based on the % compared to the max value.
   public static String colorByPercent(int hp, int maxHP){
     String output = String.format("%2s", hp+"")+"/"+String.format("%2s", maxHP+"");
@@ -127,18 +135,14 @@ public class Game {
     return output;
   }
 
-
   //Display the party and enemies
   //Do not write over the blank areas where text will appear.
   //Place the cursor at the place where the user will by typing their input at the end of this method.
   public static void drawScreen(ArrayList<Adventurer> party, ArrayList<Adventurer> enemies){
-
     drawBackground();
-
     drawParty(party, 2);
-
     drawParty(enemies, HEIGHT - 7);
-
+    drawActions();
   }
 
   public static String userInput(Scanner in){
@@ -257,22 +261,19 @@ public class Game {
         //If no errors:
         whichPlayer++;
 
-
         if(whichPlayer < party.size()){
           //This is a player turn.
           //Decide where to draw the following prompt:
           String prompt = "Enter command for "+party.get(whichPlayer)+": attack/special/quit";
 
 
-        }else{
-          //This is after the player's turn, and allows the user to see the enemy turn
-          //Decide where to draw the following prompt:
-          String prompt = "press enter to see monster's turn";
-
+        } else {
+          prompt("Press enter to see monster's turn");
+          userInput(in);
           partyTurn = false;
           whichOpponent = 0;
         }
-        //done with one party member
+        // Done with one party member
       } else {
         currentAdventurer = enemies.get(whichPlayer);
         switch (Utility.rollDice(3)) {
@@ -293,15 +294,14 @@ public class Game {
       } // End of one enemy
 
       if (!partyTurn && whichOpponent >= enemies.size()){
-        // THIS BLOCK IS TO END THE ENEMY TURN
-        // It only triggers after the last enemy goes.
+        // Ends the enemy turn after the last enemy goes
         whichPlayer = 0;
         turn++;
         partyTurn = true;
         prompt("Enter command for "+party.get(whichPlayer)+": attack/special/quit");
       }
 
-      //display the updated screen after input has been processed.
+      // Display the updated screen after input has been processed.
       drawScreen(party, enemies);
     } // End of main game loop
 
