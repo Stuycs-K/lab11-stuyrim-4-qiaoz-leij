@@ -153,6 +153,10 @@ public class Game {
     return input;
   }
 
+  public static void prompt(String s) {
+    TextBox(HEIGHT - 2, 2, WIDTH - 2, 1, s);
+  }
+
   public static void quit(){
     Text.reset();
     Text.showCursor();
@@ -197,9 +201,8 @@ public class Game {
     //Main loop
 
     //display this prompt at the start of the game.
-    String preprompt = "Enter command for "+party.get(whichPlayer)+": attack/special/quit";
-    drawText(preprompt, HEIGHT - 2, 2);
-
+    prompt("Enter command for "+party.get(whichPlayer)+": attack/special/quit");
+    
     while(! (input.equalsIgnoreCase("q") || input.equalsIgnoreCase("quit"))){
       //Read user input
       input = userInput(in);
