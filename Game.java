@@ -148,6 +148,7 @@ public class Game {
     //show cursor
     Text.showCursor();
     String input = in.nextLine();
+    Text.go(3, HEIGHT -1);
     //clear the text that was written
     for (int i = 0; i < WIDTH - 3; i++) System.out.print(" ");
     return input;
@@ -155,6 +156,7 @@ public class Game {
 
   public static void prompt(String s) {
     TextBox(HEIGHT - 2, 2, WIDTH - 2, 1, s);
+    Text.go(3, HEIGHT - 1);
   }
 
   public static void quit(){
@@ -201,14 +203,11 @@ public class Game {
     //Main loop
 
     //display this prompt at the start of the game.
-    prompt("Enter command for "+party.get(whichPlayer)+": attack/special/quit");
-    
+    prompt("Enter command for "+party.get(whichPlayer)+": attack/special/support/quit");
+
     while(! (input.equalsIgnoreCase("q") || input.equalsIgnoreCase("quit"))){
       //Read user input
       input = userInput(in);
-
-      //example debug statment
-      TextBox(24,2,1,78,"input: "+input+" partyTurn:"+partyTurn+ " whichPlayer="+whichPlayer+ " whichOpp="+whichOpponent );
 
       //display event based on last turn's input
       if(partyTurn){
@@ -216,9 +215,9 @@ public class Game {
         //Process user input for the last Adventurer:
         if(input.equals("attack") || input.equals("a")){
           /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
-          System.out.print("Who to attack? Enter number: ");
+          prompt("Who to attack? Enter number: ");
           while (in.nextInt() < 0 || in.nextInt() > enemies.size()) {
-            System.out.print("Invalid index. Enter again: ");
+            prompt("Invalid index. Enter again: ");
           }
           whichOpponent = in.nextInt();
           party.get(whichPlayer).attack(enemies.get(whichOpponent));
@@ -226,9 +225,9 @@ public class Game {
         }
         else if(input.equals("special") || input.equals("sp")){
           /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
-          System.out.print("Who to special attack? Enter number: ");
+          prompt("Who to special attack? Enter number: ");
           while (in.nextInt() < 0 || in.nextInt() > enemies.size()) {
-            System.out.print("Invalid index. Enter again: ");
+            prompt("Invalid index. Enter again: ");
           }
           whichOpponent = in.nextInt();
           party.get(whichPlayer).specialAttack(enemies.get(whichOpponent));
@@ -239,9 +238,9 @@ public class Game {
           //assume the value that follows su  is an integer.
           /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
           if (party.get(whichPlayer).getName().equals("Bard")) {
-            System.out.print("Who to support? Enter number: ");
+            prompt("Who to support? Enter number: ");
             while (in.nextInt() < 0 || in.nextInt() > party.size()) {
-              System.out.print("Invalid index. Enter again: ");
+              prompt("Invalid index. Enter again: ");
             }
             whichOpponent = in.nextInt();
             party.get(whichPlayer).support(party.get(whichOpponent));
