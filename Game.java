@@ -30,6 +30,7 @@ public class Game {
     if (actions.size() > HEIGHT - 15) actions.remove(0);
     for (String action : actions) {
       TextBox(row, 2, WIDTH - 2, 1, action);
+      row++;
     }
   }
 
@@ -285,7 +286,6 @@ public class Game {
         //You should decide when you want to re-ask for user input
         //If no errors:
         whichPlayer++;
-
       } else {
           partyTurn = false;
           currentAdventurer = enemies.get(0);
@@ -316,7 +316,7 @@ public class Game {
           }
           currentAdventurer.endTurn();
       } // End of one enemy
-
+      actions.add(action);
       if (!partyTurn && whichOpponent >= enemies.size()){
         // Ends the enemy turn after the last enemy goes
         whichPlayer = 0;
@@ -327,23 +327,20 @@ public class Game {
 
       for (int i = 0; i < party.size(); i++) {
         if (party.get(i).getHP()<=0) {
-          death += "; " + party.get(i) + " is dead. Forever.";
+          actions.add(party.get(i) + " is dead. Forever.");
           party.remove(i);
           i--;
         }
       }
       for (int i = 0; i < enemies.size(); i++) {
         if (enemies.get(i).getHP()<=0) {
-          death += "; " + enemies.get(i) + " is dead. Forever.";
+          actions.add(enemies.get(i) + " is dead. Forever.");
           enemies.remove(i);
           i--;
         }
       }
       // Display the updated screen after input has been processed.
       drawScreen(party, enemies);
-      Text.go(3, 7);
-      System.out.print(action + death);
-      death = "";
 
       if (party.size() == 0) {
         break;
@@ -364,7 +361,6 @@ public class Game {
         whichOpponent = 0;
       }
     } // End of main game loop
-
 
     //After quit reset things:
     if (party.size() == 0) {
