@@ -95,9 +95,12 @@ public class Game {
       words.removeFirst();
     }
     height--;
+    for (int i = 0; i < width - currentWidth; i++) System.out.print(" ");
     while (height > 0) {
-      for (int i = 0; i < width - 1; i++) System.out.print(" ");
+      row++;
       height--;
+      Text.go(row, col);
+      for (int i = 0; i < width - 1; i++) System.out.print(" ");
     }
   }
 
@@ -178,8 +181,6 @@ public class Game {
   }
 
   public static void prompt(String s) {
-    Text.go(HEIGHT - 2, 2);
-    for (int i = 0; i < WIDTH - 3; i++) System.out.print(" ");
     TextBox(HEIGHT - 2, 2, WIDTH - 2, 1, s);
     Text.go(HEIGHT - 1, 3);
   }
