@@ -3,8 +3,6 @@
 
 ## Features
 
-Make a clear list of features that work/dont work
-
 :white_check_mark: This feature works.
 
 :question: This feature works partially.
@@ -15,6 +13,18 @@ Make a clear list of features that work/dont work
 
 :beetle: This is a bug that affects the game.
 
+1. Generating 3 random adventurers and enemies ✅
+   - Generate random names from a preset list ☑️
+2. Adventurer attack, support, special ✅
+3. Enemy attack, support, special ✅
+   - Unique support for Dire Wolf, general support for all enemies ☑️
+4. Prompt user for command ✅
+   - Ensure commands are valid ✅
+5. Display wrapping results in box after each action ✅
+   - Action history, scrolling text within the box ✅
+6. Quit when one team wins or when quit command is typed ✅
+7. Adventurers and enemies have vulnerabilities and resistances to certain attack types ☑️
+8. Actions can apply status effects ☑️
 
 ## Adventurer Subclasses
 
