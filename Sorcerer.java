@@ -60,8 +60,8 @@ public class Sorcerer extends Adventurer {
 
   @Override
   public String specialAttack(Adventurer other) {
-    if (! consumeSpecial(1)) return getName() + " doesn't have enough Sorcerer Points to cast Fireball.";
-    String action = getName() + " spent 1 Sorcerer Point to hurl a fireball at, dealing ";
+    if (! consumeSpecial(2)) return getName() + " doesn't have enough Sorcerer Points to cast Fireball.";
+    String action = getName() + " spent 2 Sorcerer Points to hurl a fireball at all enemies, dealing ";
     for (Adventurer enemy : getEnemies()) {
       action += enemy.applyDamage(rollDamage(8), "Fire") + " Fire Damage to " + enemy.getName() + " and ";
     }

@@ -1,10 +1,12 @@
 import java.util.*;
+
+import javax.swing.event.SwingPropertyChangeSupport;
 public class Game {
   private static final int WIDTH = 80;
   private static final int HEIGHT = 30;
   private static final int BORDER_COLOR = Text.BLACK;
   private static final int BORDER_BACKGROUND = Text.BLACK + Text.BACKGROUND;
-  private static LinkedList<String> actions;
+  private static LinkedList<String> actions = new LinkedList<String>();
 
   public static void main(String[] args) {
     run();
@@ -116,12 +118,14 @@ public class Game {
   * ***THIS ROW INTENTIONALLY LEFT BLANK***
   */
   public static void drawParty(ArrayList<Adventurer> party, int startRow){
-    int width = 78 / party.size();
-    for (int i = 0; i < party.size(); i++) {
-      TextBox(startRow, 2 + i * width, width, 1, party.get(i).getName());
-      TextBox(startRow + 1, 2 + i * width, width, 1, "HP: " + colorByPercent(party.get(i).getHP(), party.get(i).getmaxHP()));
-      TextBox(startRow + 2, 2 + i * width, width, 1, party.get(i).getSpecialName() + ": " + party.get(i).getSpecial());
-      TextBox(startRow + 3, 2 + i * width, width, 1, party.get(i).getFirstCondition());
+    if (party.size() > 0) {
+      int width = 78 / party.size();
+      for (int i = 0; i < party.size(); i++) {
+        TextBox(startRow, 2 + i * width, width, 1, party.get(i).getName());
+        TextBox(startRow + 1, 2 + i * width, width, 1, "HP: " + colorByPercent(party.get(i).getHP(), party.get(i).getmaxHP()));
+        TextBox(startRow + 2, 2 + i * width, width, 1, party.get(i).getSpecialName() + ": " + party.get(i).getSpecial());
+        TextBox(startRow + 3, 2 + i * width, width, 1, party.get(i).getFirstCondition());
+      }
     }
   }
 
@@ -188,9 +192,9 @@ public class Game {
     //Make an ArrayList of Adventurers and add 2-4 Adventurers to it.
     ArrayList<Adventurer> party = new ArrayList<Adventurer>();
     /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
-    party.add(new Monk("Monk"));
-    party.add(new Bard("Bard"));
-    party.add(new Sorcerer("Sorcerer"));
+    party.add(createRandomAdventurer());
+    party.add(createRandomAdventurer());
+    party.add(createRandomAdventurer());
     /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
 
     boolean partyTurn = true;
@@ -200,7 +204,8 @@ public class Game {
     String input = "";//blank to get into the main loop.
     Scanner in = new Scanner(System.in);
     Adventurer currentAdventurer;
-    String action;
+    String action = "";
+    String death = "";
     //Draw the window border
 
     //You can add parameters to draw screen!
@@ -209,104 +214,146 @@ public class Game {
     //Main loop
 
     //display this prompt at the start of the game.
-    prompt("Enter command for "+party.get(whichPlayer)+": attack/special/support/quit");
-
+    prompt("Enter command for "+party.get(whichPlayer)+": attack/special/support/quit + target index");
+    
     while(! (input.equalsIgnoreCase("q") || input.equalsIgnoreCase("quit"))){
       //Read user input
       input = userInput(in);
-
       //display event based on last turn's input
-      if(partyTurn){
-
-        //Process user input for the last Adventurer:
-        if(input.equals("attack") || input.equals("a")){
+      if(partyTurn && whichPlayer < party.size()){
+        int target = Integer.parseInt(input.substring(input.indexOf(" ") + 1));
+        currentAdventurer = party.get(whichPlayer);
+        if(input.startsWith("attack") || input.startsWith("a")){
           /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
-          prompt("Who to attack? Enter number: ");
-          while (in.nextInt() < 0 || in.nextInt() > enemies.size()) {
+          while (target < 0 || target >= enemies.size()) {
             prompt("Invalid index. Enter again: ");
+            input = userInput(in);
+            target = Integer.parseInt(input);
           }
-          whichOpponent = in.nextInt();
-          party.get(whichPlayer).attack(enemies.get(whichOpponent));
+          action = currentAdventurer.attack(enemies.get(target));
           /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
         }
-        else if(input.equals("special") || input.equals("sp")){
+        else if(input.startsWith("special") || input.startsWith("sp")){
           /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
-          prompt("Who to special attack? Enter number: ");
-          while (in.nextInt() < 0 || in.nextInt() > enemies.size()) {
+          while (target < 0 || target >= enemies.size()) {
             prompt("Invalid index. Enter again: ");
+            input = userInput(in);
+            target = Integer.parseInt(input);
           }
-          whichOpponent = in.nextInt();
-          party.get(whichPlayer).specialAttack(enemies.get(whichOpponent));
+          action = currentAdventurer.specialAttack(enemies.get(target));
           /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
         }
         else if(input.startsWith("su ") || input.startsWith("support ")){
           //"support 0" or "su 0" or "su 2" etc.
           //assume the value that follows su  is an integer.
           /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
-          if (party.get(whichPlayer).getName().equals("Bard")) {
-            prompt("Who to support? Enter number: ");
-            while (in.nextInt() < 0 || in.nextInt() > party.size()) {
-              prompt("Invalid index. Enter again: ");
-            }
-            whichOpponent = in.nextInt();
-            party.get(whichPlayer).support(party.get(whichOpponent));
-          } else {
-            party.get(whichPlayer).support(party.get(0));
+          while (target < 0 || target >= party.size()) {
+            prompt("Invalid index. Enter again: ");
+            input = userInput(in);
+            target = Integer.parseInt(input);
           }
-
+          Text.go(3, HEIGHT - 1);
+          action = currentAdventurer.support(party.get(target));
           /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
         }
-
         //You should decide when you want to re-ask for user input
         //If no errors:
         whichPlayer++;
 
-        if(whichPlayer < party.size()){
-          //This is a player turn.
-          //Decide where to draw the following prompt:
-          String prompt = "Enter command for "+party.get(whichPlayer)+": attack/special/quit";
-
-
-        } else {
-          prompt("Press enter to see monster's turn");
-          userInput(in);
-          partyTurn = false;
-          whichOpponent = 0;
-        }
-        // Done with one party member
       } else {
-        currentAdventurer = enemies.get(whichPlayer);
-        switch (Utility.rollDice(3)) {
-          case 1:
-            action = currentAdventurer.attack(currentAdventurer.getRandomEnemy());
-            break;
-          case 2:
-            action = currentAdventurer.support(currentAdventurer.getRandomFriend());
-            break;
-          case 3:
-            action = currentAdventurer.specialAttack(currentAdventurer.getRandomEnemy());
-            break;
-        }
-        prompt("Press enter to see next turn");
-        userInput(in);
-        whichOpponent++;
-        currentAdventurer.endTurn();
+          partyTurn = false;
+          currentAdventurer = enemies.get(0);
+          int target = (int) (Math.random() * 3);
+          switch (Utility.rollDice(10)) {
+            case 1, 2, 3, 4, 5:
+              action = currentAdventurer.attack(party.get(target));
+              break;
+            case 6, 7:
+              if (currentAdventurer instanceof DireWolf) {
+                if (Math.random() > 0.7) {
+                  action = ((DireWolf) currentAdventurer).uniqueSupport();
+                }
+                action = currentAdventurer.support();
+              } else {
+                action = currentAdventurer.support();
+              }
+              break;
+            case 8, 9, 10:
+              action = currentAdventurer.specialAttack(party.get(target));
+              break;
+            }
+          whichOpponent++;
+
+          if (whichOpponent < enemies.size()) {
+          prompt("Press enter to see next turn");
+          userInput(in);
+          }
+          currentAdventurer.endTurn();
       } // End of one enemy
 
       if (!partyTurn && whichOpponent >= enemies.size()){
         // Ends the enemy turn after the last enemy goes
         whichPlayer = 0;
+        whichOpponent = 0;
         turn++;
         partyTurn = true;
-        prompt("Enter command for "+party.get(whichPlayer)+": attack/special/quit");
       }
 
+      for (int i = 0; i < party.size(); i++) {
+        if (party.get(i).getHP()<=0) {
+          death += "; " + party.get(i) + " is dead. Forever.";
+          party.remove(i);
+          i--;
+        }
+      }
+      for (int i = 0; i < enemies.size(); i++) {
+        if (enemies.get(i).getHP()<=0) {
+          death += "; " + enemies.get(i) + " is dead. Forever.";
+          enemies.remove(i);
+          i--;
+        }
+      }
       // Display the updated screen after input has been processed.
       drawScreen(party, enemies);
+      Text.go(3, 7);
+      System.out.print(action + death);
+      death = "";
+
+      if (party.size() == 0) {
+        break;
+      } else if (enemies.size() == 0) {
+        break;
+      }
+
+      if (whichPlayer < party.size()) {
+        //This is a player turn.
+        //Decide where to draw the following prompt:
+        prompt("Enter command for "+party.get(whichPlayer)+": attack/special/support/quit + target index");
+
+      } else{
+        //This is after the player's turn, and allows the user to see the enemy turn
+        //Decide where to draw the following prompt:
+        prompt("Press enter to see enemy turn");
+        partyTurn = false;
+        whichOpponent = 0;
+      }
     } // End of main game loop
 
 
     //After quit reset things:
-    quit();
+    if (party.size() == 0) {
+      prompt("You lose. Press enter to quit.");
+      userInput(in);
+      System.out.print("\033[H\033[2J");
+      System.out.flush();
+      System.exit(0);
+    } else {
+      prompt("You win! Press enter to quit.");
+      userInput(in);
+      System.out.print("\033[H\033[2J");
+      System.out.flush();
+      System.exit(0);
+    }
+    
   }
 }

@@ -22,7 +22,7 @@ public class Boss extends Enemies {
       String condition = "Paralyzed";
       int duration = 3;
       if (getSpecial() < 5) {
-          return "Too little mana; " + attack(other);
+          return attack(other);
         } else {
           setSpecial(getSpecial()-5);
           int dmg = other.applyDamage(rollDamage(10) + rollDamage(10) + rollDamage(10), "Psychic");

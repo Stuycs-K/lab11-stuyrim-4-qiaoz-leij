@@ -20,7 +20,7 @@ public class SpiderSwarm extends Enemies {
         String condition = "Paralyzed";
         int duration = 2;
         if (getSpecial() < 3) {
-            return "Too little mana; " + attack(other);
+            return attack(other);
           } else {
             setSpecial(getSpecial()-3);;
             other.applyCondition(condition, duration);

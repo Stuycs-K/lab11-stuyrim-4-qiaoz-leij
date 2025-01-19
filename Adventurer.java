@@ -32,7 +32,7 @@ public abstract class Adventurer {
   }
 
   public boolean consumeSpecial(int n) {
-    if (n < getSpecial()) return false;
+    if (n > getSpecial()) return false;
     setSpecial(getSpecial() - n);
     return true;
   }
@@ -70,6 +70,7 @@ public abstract class Adventurer {
     if (resistances.contains(type)) amount /= 2;
     if (block != null) amount -= block.decreaseLevel(amount);
     amount = Math.min(this.HP, amount);
+    this.HP -= amount;
     return amount;
   }
 

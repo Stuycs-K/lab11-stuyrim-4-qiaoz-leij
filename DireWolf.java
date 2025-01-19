@@ -29,7 +29,7 @@ public class DireWolf extends Enemies {
         String condition = "Prone";
         int duration = 1;
         if (getSpecial() < 4) {
-            return "Too little mana; " + attack(other);
+            return attack(other);
           } else {
             setSpecial(getSpecial()-4);
             int dmg = other.applyDamage(rollDamage(6) + rollDamage(6), "Piercing");
