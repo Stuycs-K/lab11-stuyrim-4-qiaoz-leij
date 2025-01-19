@@ -83,19 +83,19 @@ public class Game {
     int currentWidth = 0;
     Text.go(row, col);
     while (! words.isEmpty() && height != 0) {
-      if (words.getFirst().length() >= width - currentWidth) {
+      currentWidth += words.getFirst().length() + 1;
+      System.out.print(words.getFirst() + " ");
+      words.removeFirst();
+      if (! words.isEmpty() && words.getFirst().length() >= width - currentWidth) {
         for (int i = 0; i < width - currentWidth; i++) System.out.print(" ");
         row++;
         height--;
         currentWidth = 0;
         Text.go(row, col);
       }
-      currentWidth += words.getFirst().length() + 1;
-      System.out.print(words.getFirst() + " ");
-      words.removeFirst();
     }
+    if (words.isEmpty()) for (int i = 0; i < width - currentWidth; i++) System.out.print(" ");
     height--;
-    for (int i = 0; i < width - currentWidth; i++) System.out.print(" ");
     while (height > 0) {
       row++;
       height--;
