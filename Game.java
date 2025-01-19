@@ -198,6 +198,7 @@ public class Game {
     Text.go(32,1);
   }
 
+  @SuppressWarnings("unchecked")
   public static void run(){
     //Clear and initialize
     Text.hideCursor();
@@ -228,13 +229,13 @@ public class Game {
     party.add(c);
 
     for (Adventurer adventurer : enemies) {
-      adventurer.setFriends(enemies);
-      adventurer.setEnemies(party);
+      adventurer.setFriends((ArrayList<Adventurer>) enemies.clone());
+      adventurer.setEnemies((ArrayList<Adventurer>) party.clone());
     }
 
     for (Adventurer adventurer : party) {
-      adventurer.setFriends(party);
-      adventurer.setEnemies(enemies);
+      adventurer.setFriends((ArrayList<Adventurer>) party.clone());
+      adventurer.setEnemies((ArrayList<Adventurer>) enemies.clone());
     }
     /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
 
@@ -366,14 +367,14 @@ public class Game {
 
       for (int i = 0; i < party.size(); i++) {
         if (party.get(i).isDead()) {
-          actions.add(party.get(i).getName() + " is dead. Forever.");
+          actions.add(">" + party.get(i).getName() + " is dead. Forever.");
           party.remove(i);
           i--;
         }
       }
       for (int i = 0; i < enemies.size(); i++) {
         if (enemies.get(i).isDead()) {
-          actions.add(enemies.get(i).getName() + " is dead. Forever.");
+          actions.add(">" + enemies.get(i).getName() + " is dead. Forever.");
           enemies.remove(i);
           i--;
         }
