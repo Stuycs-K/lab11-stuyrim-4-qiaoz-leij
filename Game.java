@@ -178,6 +178,8 @@ public class Game {
   }
 
   public static void prompt(String s) {
+    Text.go(HEIGHT - 2, 2);
+    for (int i = 0; i < WIDTH - 3; i++) System.out.print(" ");
     TextBox(HEIGHT - 2, 2, WIDTH - 2, 1, s);
     Text.go(HEIGHT - 1, 3);
   }
