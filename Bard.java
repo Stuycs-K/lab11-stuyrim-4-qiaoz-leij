@@ -33,7 +33,7 @@ public class Bard extends Adventurer {
     int damage = other.applyDamage(rollDamage(8), "Psychic");
     other.applyCondition("Disadvantage", 1);
     String action = getName() + " insulted " + other.getName() + " for " + damage + " Psychic Damage";
-    return action + " and applied Disadvantage on " + other.getName() + "'s next turn's attack!";
+    return action + " and applied Disadvantage on " + other.getName() + "'s next attack!";
   }
 
   @Override

@@ -79,21 +79,25 @@ public class Game {
   *@param height the number of rows
   */
   public static void TextBox(int row, int col, int width, int height, String text){
-    while (text.length() >= width && height != 0) {
-      Text.go(row, col);
-      System.out.print(text.substring(0, width));
-      text = text.substring(width);
-      row++;
-      height--;
+    LinkedList<String> words = new LinkedList<String>(Arrays.asList(text.split(" ")));
+    int currentWidth = 0;
+    Text.go(row, col);
+    while (! words.isEmpty() && height != 0) {
+      if (words.getFirst().length() >= width - currentWidth) {
+        for (int i = 0; i < width - currentWidth; i++) System.out.print(" ");
+        row++;
+        height--;
+        currentWidth = 0;
+        Text.go(row, col);
+      }
+      currentWidth += words.getFirst().length() + 1;
+      System.out.print(words.getFirst() + " ");
+      words.removeFirst();
     }
-    if (height != 0) {
-      Text.go(row, col);
-      System.out.print(text);
-      for (int i = 0; i < width - text.length(); i++) System.out.print(" ");
-      height--;
-    }
+    height--;
     while (height > 0) {
-      for (int i = 0; i < width; i++) System.out.print(" ");
+      for (int i = 0; i < width - 1; i++) System.out.print(" ");
+      height--;
     }
   }
 
@@ -294,7 +298,7 @@ public class Game {
         whichPlayer++;
       } else {
         currentAdventurer = enemies.get(whichOpponent);
-        int target = (int) (Math.random() * 3);
+        int target = (int) (Math.random() * party.size());
         switch (Utility.rollDice(10)) {
           case 1, 2, 3, 4, 5:
             action = currentAdventurer.attack(party.get(target));

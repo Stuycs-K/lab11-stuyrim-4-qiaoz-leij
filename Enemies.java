@@ -44,7 +44,7 @@ public abstract class Enemies extends Adventurer {
         healMsg = getName() + " tried to heal " + other.getName() + " but they were already at max HP.";
       }
     } else {
-      healMsg = getName() + " accidently dealt " + other.applyDamage(heal, "Piercing") + " Piercing damage to " + other.getName();
+      healMsg = getName() + " accidently dealt " + other.applyDamage(heal, "Piercing") + " Piercing damage to " + other.getName() + ".";
     }
     return healMsg;
   }
