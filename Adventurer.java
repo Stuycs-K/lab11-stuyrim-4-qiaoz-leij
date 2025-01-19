@@ -190,6 +190,12 @@ public abstract class Adventurer {
     if (hasCondition("Paralyzed")) {
       returnValue = getName() + " is Paralyzed";
     }
+    if (hasCondition("Deaf")) {
+      returnValue = getName() + " is Deaf";
+    }
+    if (hasCondition("Blind")) {
+      returnValue = getName() + " is Blind";
+    }
     decreaseDurations(1);
     return returnValue + "!";
   }

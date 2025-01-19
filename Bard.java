@@ -39,8 +39,12 @@ public class Bard extends Adventurer {
   @Override
   public String support(Adventurer other) {
     if (! consumeSpecial(1)) return getName() + " doesn't have enough spell slots to cast Bardic Inspiration.";
-    other.applyCondition("Inspired", 1);
-    return getName() + " spent 1 Spell Slot to apply Inspired to " + other.getName() + " for 1 turn!";
+    if (!other.hasCondition("Deaf")) {
+      other.applyCondition("Inspired", 1);
+      return getName() + " spent 1 Spell Slot to apply Inspired to " + other.getName() + " for 1 turn!";
+    } else {
+      return getName() + " wasted 1 Spell Slot because " + other.getName() + " is Deaf and can't be Inspired!";
+    }
   }
 
   @Override
