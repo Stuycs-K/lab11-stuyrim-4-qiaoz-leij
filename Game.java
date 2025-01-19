@@ -108,12 +108,15 @@ public class Game {
   //feel free to overload this method to allow specific names/stats.
   public static Adventurer createRandomAdventurer(){
     double x = Math.random();
+    String name;
+    String[] names = {"Bob", "Amy", "Jun", "Liz", "Sam", "Max", "Ken", "Zoe", "Eli", "Ava"};
+    name = names[(int) (Math.random() * names.length)];
     if (x < 0.33) {
-      return new Monk("Monk");
+      return new Monk("Monk " + name);
     } else if (x < 0.67) {
-      return new Bard("Bard");
+      return new Bard("Bard " + name);
     } else {
-      return new Sorcerer("Sorcerer");
+      return new Sorcerer("Sorcerer " + name);
     }
   }
 
@@ -267,7 +270,7 @@ public class Game {
         }
         
         if (currentAdventurer.hasCondition("Paralyzed")) {
-          action = "Can't move. Paralyzed.";
+          action = currentAdventurer.getName() + " is paralyzed and cannot act.";
         } 
         else if(input.startsWith("attack ") || input.startsWith("a ")){
           /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
