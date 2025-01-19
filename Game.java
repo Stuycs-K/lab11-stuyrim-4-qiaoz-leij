@@ -343,6 +343,21 @@ public class Game {
         whichOpponent++;
       } // End of one enemy
       actions.add(">" + action);
+
+      for (int i = 0; i < party.size(); i++) {
+        if (party.get(i).isDead()) {
+          actions.add(">" + party.get(i).getName() + " is dead. Forever.");
+          party.remove(i);
+          i--;
+        }
+      }
+      for (int i = 0; i < enemies.size(); i++) {
+        if (enemies.get(i).isDead()) {
+          actions.add(">" + enemies.get(i).getName() + " is dead. Forever.");
+          enemies.remove(i);
+          i--;
+        }
+      }
       
       if (!partyTurn && whichOpponent >= enemies.size()){
         // Ends the enemy turn after the last enemy goes
@@ -365,20 +380,6 @@ public class Game {
         partyTurn = false;
       }
 
-      for (int i = 0; i < party.size(); i++) {
-        if (party.get(i).isDead()) {
-          actions.add(">" + party.get(i).getName() + " is dead. Forever.");
-          party.remove(i);
-          i--;
-        }
-      }
-      for (int i = 0; i < enemies.size(); i++) {
-        if (enemies.get(i).isDead()) {
-          actions.add(">" + enemies.get(i).getName() + " is dead. Forever.");
-          enemies.remove(i);
-          i--;
-        }
-      }
       // Display the updated screen after input has been processed.
       drawScreen(party, enemies);
 
