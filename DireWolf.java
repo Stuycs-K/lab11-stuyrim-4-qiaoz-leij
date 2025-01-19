@@ -12,7 +12,7 @@ public class DireWolf extends Enemies {
             }
         }
         int n = restoreSpecial(1);
-        return condition + "all wolves for " + duration + "turn; Restored " + n + " " + getSpecialName();
+        return getName() + " applied " + condition + " to all wolves for " + duration + " turn and restored " + n + " " + getSpecialName() + "!";
     }
 
     @Override
@@ -21,7 +21,7 @@ public class DireWolf extends Enemies {
         int duration = 2;
         int dmg = other.applyDamage(rollDamage(6), "Piercing");
         other.applyCondition(condition, duration);
-        return "Dealt " + dmg + " damage; Applied " + condition + " for " + duration + " turns";
+        return getName() + " dealt " + dmg + " Piercing Damage to " + other.getName() + " and applied " + condition + " for " + duration + " turns!";
     }
 
     @Override
@@ -34,8 +34,7 @@ public class DireWolf extends Enemies {
             setSpecial(getSpecial()-4);
             int dmg = other.applyDamage(rollDamage(6) + rollDamage(6), "Piercing");
             other.applyCondition(condition, duration);
-            return "Dealt " + dmg + " damage; "
-              + condition + " " + other.getName() + " for " + duration + "turns";
+            return getName() + " dealt " + dmg + " Piercing Damage and applied" + condition + " to " + other.getName() + " for " + duration + "turns!";
           }
     }
 }

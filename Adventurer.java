@@ -63,14 +63,25 @@ public abstract class Adventurer {
   standard methods
   */
 
+  public boolean isDead() {
+    return this.HP == 0;
+  }
+
   public int applyDamage(int amount, String type) {
     Condition block = getCondition("Block");
     // Vulnerabilities and Resistances are applied before block
     if (vulnerabilities.contains(type)) amount *= 2;
     if (resistances.contains(type)) amount /= 2;
-    if (block != null) amount -= block.decreaseLevel(amount);
+    if (block != null) {
+      amount -= block.decreaseLevel(amount);
+      if (block.getLevel() == 0) removeCondition("Block");
+    }
     amount = Math.min(this.HP, amount);
     this.HP -= amount;
+    if (HP == 0) {
+      for (int i = 0; i < friends.size(); i++) friends.get(i).removeFriend(this);
+      for (int i = 0; i < enemies.size(); i++) enemies.get(i).removeEnemy(this);
+    }
     return amount;
   }
 
@@ -154,21 +165,30 @@ public abstract class Adventurer {
 
   // Condition Effects
 
-  public String getFirstCondition() {
-    if (conditions.size() != 0) {
-      return conditions.get(0).getName();
+  public String getConditions() {
+    String output = "";
+    for (Condition condition : conditions) {
+      output += condition.getName() + " " + condition.getLevel();
+      if (! condition.equals(conditions.getLast())) output += ", ";
     }
-    return "";
+    return output;
   }
 
-  public void endTurn() {
-    if (hasCondition("Poisoned")) applyDamage(Utility.rollDice(4), "Acid");
-    if (hasCondition("Bleeding") && Utility.rollDice(2) == 1) applyDamage(Utility.rollDice(8), "Piercing");
-    decreaseDurations(1);
-    if (HP == 0) {
-      for (Adventurer friend : friends) friend.removeFriend(this);
-      for (Adventurer enemy : enemies) enemy.removeEnemy(this);
+  public String endTurn() {
+    String returnValue = "";
+    if (hasCondition("Poisoned")) {
+      returnValue = getName() + " took " + applyDamage(Utility.rollDice(4), "Acid") + " Acid Damage from Poison";
     }
+    if (hasCondition("Bleeding") && Utility.rollDice(2) == 1) {
+      if (returnValue.length() == 0) {
+        returnValue = getName() + " took ";
+      } else {
+        returnValue += " and ";
+      }
+      returnValue += applyDamage(Utility.rollDice(8), "Piercing") + " Piercing Damage from Bleeding";
+    }
+    decreaseDurations(1);
+    return returnValue + "!";
   }
 
   public void decreaseDurations(int amount) {
@@ -231,7 +251,7 @@ public abstract class Adventurer {
   }
 
   private void removeConditionAtIndex(int index) {
-    if (index <= 0 || index > conditions.size()) throw new IllegalArgumentException();
+    if (index < 0 || index >= conditions.size()) throw new IllegalArgumentException();
     conditions.remove(index);
   }
 

@@ -11,8 +11,8 @@ public class SpiderSwarm extends Enemies {
         int dmg = other.applyDamage(rollDamage(6), "Piercing");
         other.applyCondition(condition, duration);
         int n = restoreSpecial(1);
-        return "Dealt " + dmg + " damage; Restored " + n + " " + getSpecialName() +
-            "; " + condition + " " + other.getName() + " for " + duration + "turns";
+        return getName() + " dealt " + dmg + " Piercing Damage, restored " + n + " " + getSpecialName() +
+            ", and applied " + condition + " to " + other.getName() + " for " + duration + " turns!";
     }
 
     @Override
@@ -25,6 +25,6 @@ public class SpiderSwarm extends Enemies {
             setSpecial(getSpecial()-3);;
             other.applyCondition(condition, duration);
           }
-        return condition + " " + other.getName() + " for " + duration + " turns";
+        return getName() + " applied " + condition + " to " + other.getName() + " for " + duration + " turns!";
     }
 }

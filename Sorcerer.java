@@ -40,7 +40,7 @@ public class Sorcerer extends Adventurer {
         break;
     }
     int damage = other.applyDamage(rollDamage(8) + rollDamage(8), damageType);
-    return getName() + " blasted " + other.getName() + " for " + damage + damageType + " Damage!";
+    return getName() + " blasted " + other.getName() + " for " + damage + " " + damageType + " Damage!";
   }
 
   @Override
@@ -62,8 +62,11 @@ public class Sorcerer extends Adventurer {
   public String specialAttack(Adventurer other) {
     if (! consumeSpecial(2)) return getName() + " doesn't have enough Sorcerer Points to cast Fireball.";
     String action = getName() + " spent 2 Sorcerer Points to hurl a fireball at all enemies, dealing ";
-    for (Adventurer enemy : getEnemies()) {
+    Adventurer enemy;
+    for (int i = 0; i < getEnemies().size(); i++) {
+      enemy = getEnemies().get(i);
       action += enemy.applyDamage(rollDamage(8), "Fire") + " Fire Damage to " + enemy.getName() + " and ";
+      if (enemy.isDead()) i--;
     }
     return action.substring(0, action.length() - 5) + "!";
   }

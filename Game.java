@@ -1,11 +1,10 @@
 import java.util.*;
 
-import javax.swing.event.SwingPropertyChangeSupport;
 public class Game {
   private static final int WIDTH = 80;
   private static final int HEIGHT = 30;
   private static final int BORDER_COLOR = Text.BLACK;
-  private static final int BORDER_BACKGROUND = Text.BLACK + Text.BACKGROUND;
+  private static final int BORDER_BACKGROUND = Text.WHITE + Text.BACKGROUND;
   private static LinkedList<String> actions = new LinkedList<String>();
 
   public static void main(String[] args) {
@@ -27,33 +26,35 @@ public class Game {
 
   private static void drawActions() {
     int row = 7;
-    if (actions.size() > HEIGHT - 15) actions.remove(0);
+    int neededRows = 0;
+    for (String action : actions) neededRows += action.length() / (WIDTH - 2) + 1;
+    if (neededRows >= HEIGHT - 15) {
+      for (int i = 0; i < 2; i++) actions.remove(0);
+    }
     for (String action : actions) {
-      TextBox(row, 2, WIDTH - 2, 1, action);
-      row++;
+      TextBox(row, 2, WIDTH - 2, action.length() / (WIDTH - 2) + 1, action);
+      row += action.length() / (WIDTH - 2) + 1;
     }
   }
 
   //Display the borders of your screen that will not change.
   //Do not write over the blank areas where text will appear or parties will appear.
   public static void drawBackground(){
-    // System.out.print(Text.changeColor(BORDER_COLOR));
-    // System.out.print(Text.changeColor(BORDER_BACKGROUND));
     Text.clear();
     Text.hideCursor();
     Text.go(1, 1);
     drawLine('┌', '─', '┐');
     drawSides(2, 6);
-    Text.go(1, 6);
+    Text.go(6, 1);
     drawLine('├', '─', '┤');
     drawSides(7, HEIGHT - 8);
-    Text.go(1, HEIGHT - 8);
+    Text.go(HEIGHT - 8, 1);
     drawLine('├', '─', '┤');
     drawSides(HEIGHT - 7, HEIGHT - 3);
-    Text.go(1, HEIGHT - 3);
+    Text.go(HEIGHT - 3, 1);
     drawLine('├', '─', '┤');
     drawSides(HEIGHT - 2, HEIGHT);
-    Text.go(1, HEIGHT);
+    Text.go(HEIGHT, 1);
     drawLine('└', '─', '┘');
     Text.reset();
     Text.hideCursor();
@@ -63,7 +64,7 @@ public class Game {
   //(columns and rows start at 1 (not zero) in the terminal)
   //use this method in your other text drawing methods to make things simpler.
   public static void drawText(String s,int startRow, int startCol){
-    Text.go(startCol, startRow);
+    Text.go(startRow, startCol);
     System.out.print(s);
   }
 
@@ -79,14 +80,14 @@ public class Game {
   */
   public static void TextBox(int row, int col, int width, int height, String text){
     while (text.length() >= width && height != 0) {
-      Text.go(col, row);
+      Text.go(row, col);
       System.out.print(text.substring(0, width));
       text = text.substring(width);
       row++;
       height--;
     }
     if (height != 0) {
-      Text.go(col, row);
+      Text.go(row, col);
       System.out.print(text);
       for (int i = 0; i < width - text.length(); i++) System.out.print(" ");
       height--;
@@ -134,7 +135,7 @@ public class Game {
         TextBox(startRow, 2 + i * width, width, 1, party.get(i).getName());
         TextBox(startRow + 1, 2 + i * width, width, 1, "HP: " + colorByPercent(party.get(i).getHP(), party.get(i).getmaxHP()));
         TextBox(startRow + 2, 2 + i * width, width, 1, party.get(i).getSpecialName() + ": " + party.get(i).getSpecial());
-        TextBox(startRow + 3, 2 + i * width, width, 1, party.get(i).getFirstCondition());
+        TextBox(startRow + 3, 2 + i * width, width, 1, party.get(i).getConditions());
       }
     }
   }
@@ -161,12 +162,12 @@ public class Game {
 
   public static String userInput(Scanner in){
     //Move cursor to prompt location
-    Text.go(2, HEIGHT - 1);
+    Text.go(HEIGHT - 1, 2);
     System.out.print('>');
     //show cursor
     Text.showCursor();
     String input = in.nextLine();
-    Text.go(3, HEIGHT -1);
+    Text.go(HEIGHT -1, 3);
     //clear the text that was written
     for (int i = 0; i < WIDTH - 3; i++) System.out.print(" ");
     return input;
@@ -174,7 +175,7 @@ public class Game {
 
   public static void prompt(String s) {
     TextBox(HEIGHT - 2, 2, WIDTH - 2, 1, s);
-    Text.go(3, HEIGHT - 1);
+    Text.go(HEIGHT - 1, 3);
   }
 
   public static void quit(){
@@ -187,7 +188,6 @@ public class Game {
     //Clear and initialize
     Text.hideCursor();
     Text.clear();
-
 
     //Things to attack:
     //Make an ArrayList of Adventurers and add 1-3 enemies to it.
@@ -227,12 +227,11 @@ public class Game {
     boolean partyTurn = true;
     int whichPlayer = 0;
     int whichOpponent = 0;
-    int turn = 0;
-    String input = "";//blank to get into the main loop.
+    int turn = 1;
+    String input = ""; //blank to get into the main loop.
     Scanner in = new Scanner(System.in);
     Adventurer currentAdventurer;
     String action = "";
-    String death = "";
     //Draw the window border
 
     //You can add parameters to draw screen!
@@ -242,12 +241,12 @@ public class Game {
 
     //display this prompt at the start of the game.
     prompt("Enter command for "+party.get(whichPlayer)+": attack/special/support/quit + target index");
-    
+    actions.add("Turn 1");
+    input = userInput(in);
+
     while(! (input.equalsIgnoreCase("q") || input.equalsIgnoreCase("quit"))){
-      //Read user input
-      input = userInput(in);
       //display event based on last turn's input
-      if(partyTurn && whichPlayer < party.size()){
+      if (partyTurn) {
         int target = Integer.parseInt(input.substring(input.indexOf(" ") + 1));
         currentAdventurer = party.get(whichPlayer);
         if(input.startsWith("attack") || input.startsWith("a")){
@@ -256,6 +255,9 @@ public class Game {
             prompt("Invalid index. Enter again: ");
             input = userInput(in);
             target = Integer.parseInt(input);
+            try {
+              target = Integer.parseInt(input);
+            } catch (NumberFormatException e) {}
           }
           action = currentAdventurer.attack(enemies.get(target));
           /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
@@ -265,7 +267,9 @@ public class Game {
           while (target < 0 || target >= enemies.size()) {
             prompt("Invalid index. Enter again: ");
             input = userInput(in);
-            target = Integer.parseInt(input);
+            try {
+              target = Integer.parseInt(input);
+            } catch (NumberFormatException e) {}
           }
           action = currentAdventurer.specialAttack(enemies.get(target));
           /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
@@ -278,8 +282,10 @@ public class Game {
             prompt("Invalid index. Enter again: ");
             input = userInput(in);
             target = Integer.parseInt(input);
+            try {
+              target = Integer.parseInt(input);
+            } catch (NumberFormatException e) {}
           }
-          Text.go(3, HEIGHT - 1);
           action = currentAdventurer.support(party.get(target));
           /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
         }
@@ -287,54 +293,58 @@ public class Game {
         //If no errors:
         whichPlayer++;
       } else {
-          partyTurn = false;
-          currentAdventurer = enemies.get(0);
-          int target = (int) (Math.random() * 3);
-          switch (Utility.rollDice(10)) {
-            case 1, 2, 3, 4, 5:
-              action = currentAdventurer.attack(party.get(target));
-              break;
-            case 6, 7:
-              if (currentAdventurer instanceof DireWolf) {
-                if (Math.random() > 0.7) {
-                  action = ((DireWolf) currentAdventurer).uniqueSupport();
-                }
-                action = currentAdventurer.support();
-              } else {
-                action = currentAdventurer.support();
-              }
-              break;
-            case 8, 9, 10:
-              action = currentAdventurer.specialAttack(party.get(target));
-              break;
+        currentAdventurer = enemies.get(whichOpponent);
+        int target = (int) (Math.random() * 3);
+        switch (Utility.rollDice(10)) {
+          case 1, 2, 3, 4, 5:
+            action = currentAdventurer.attack(party.get(target));
+            break;
+          case 6, 7:
+            if (currentAdventurer instanceof DireWolf && Math.random() > 0.7) {
+              action = ((DireWolf) currentAdventurer).uniqueSupport();
+            } else {
+              action = currentAdventurer.support();
             }
-          whichOpponent++;
-
-          if (whichOpponent < enemies.size()) {
-          prompt("Press enter to see next turn");
-          userInput(in);
+            break;
+          case 8, 9, 10:
+            action = currentAdventurer.specialAttack(party.get(target));
+            break;
           }
-          currentAdventurer.endTurn();
+        whichOpponent++;
       } // End of one enemy
-      actions.add(action);
+      actions.add(">" + action);
+      
       if (!partyTurn && whichOpponent >= enemies.size()){
         // Ends the enemy turn after the last enemy goes
         whichPlayer = 0;
         whichOpponent = 0;
         turn++;
         partyTurn = true;
+        for (int i = 0; i < party.size(); i++) {
+          action = party.get(i).endTurn();
+          if (action.length() != 1) actions.add(">" + action);
+        }
+        for (int i = 0; i < enemies.size(); i++) {
+          action = enemies.get(i).endTurn();
+          if (action.length() != 1) actions.add(">" + action);
+        }
+        actions.add("Turn " + turn);
+      }
+
+      if (partyTurn && whichPlayer >= party.size()) {
+        partyTurn = false;
       }
 
       for (int i = 0; i < party.size(); i++) {
-        if (party.get(i).getHP()<=0) {
-          actions.add(party.get(i) + " is dead. Forever.");
+        if (party.get(i).isDead()) {
+          actions.add(party.get(i).getName() + " is dead. Forever.");
           party.remove(i);
           i--;
         }
       }
       for (int i = 0; i < enemies.size(); i++) {
-        if (enemies.get(i).getHP()<=0) {
-          actions.add(enemies.get(i) + " is dead. Forever.");
+        if (enemies.get(i).isDead()) {
+          actions.add(enemies.get(i).getName() + " is dead. Forever.");
           enemies.remove(i);
           i--;
         }
@@ -342,40 +352,26 @@ public class Game {
       // Display the updated screen after input has been processed.
       drawScreen(party, enemies);
 
-      if (party.size() == 0) {
-        break;
-      } else if (enemies.size() == 0) {
-        break;
-      }
+      if (party.size() == 0 || enemies.size() == 0) break;
 
       if (whichPlayer < party.size()) {
         //This is a player turn.
         //Decide where to draw the following prompt:
         prompt("Enter command for "+party.get(whichPlayer)+": attack/special/support/quit + target index");
-
-      } else{
+      } else {
         //This is after the player's turn, and allows the user to see the enemy turn
         //Decide where to draw the following prompt:
-        prompt("Press enter to see enemy turn");
-        partyTurn = false;
-        whichOpponent = 0;
+        prompt("Press enter to see the next enemy turn");
       }
+      input = userInput(in);
     } // End of main game loop
 
     //After quit reset things:
     if (party.size() == 0) {
-      prompt("You lose. Press enter to quit.");
-      userInput(in);
-      System.out.print("\033[H\033[2J");
-      System.out.flush();
-      System.exit(0);
-    } else {
-      prompt("You win! Press enter to quit.");
-      userInput(in);
-      System.out.print("\033[H\033[2J");
-      System.out.flush();
-      System.exit(0);
+      prompt("You lose.");
+    } else if (enemies.size() == 0) {
+      prompt("You win!");
     }
-    
+    quit();
   }
 }
