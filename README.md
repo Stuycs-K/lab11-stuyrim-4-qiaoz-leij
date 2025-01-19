@@ -13,18 +13,18 @@
 
 :beetle: This is a bug that affects the game.
 
-1. Generating 3 random adventurers and enemies ✅
-   - Generate random names from a preset list ☑️
-2. Adventurer attack, support, special ✅
-3. Enemy attack, support, special ✅
-   - Unique support for Dire Wolf, general support for all enemies ☑️
-4. Prompt user for command ✅
-   - Ensure commands are valid ✅
-5. Display wrapping results in box after each action ✅
-   - Action history, scrolling text within the box ✅
-6. Quit when one team wins or when quit command is typed ✅
-7. Adventurers and enemies have vulnerabilities and resistances to certain attack types ☑️
-8. Actions can apply status effects ☑️
+1. Generating 3 random adventurers and enemies :white_check_mark:
+   - Generate random names from a preset list :ballot_box_with_check:
+2. Adventurer attack, support, special :white_check_mark:
+3. Enemy attack, support, special :white_check_mark:
+   - Unique support for Dire Wolf, general support for all enemies :ballot_box_with_check:
+4. Prompt user for command :white_check_mark:
+   - Ensure commands are valid :white_check_mark:
+5. Display wrapping results in box after each action :white_check_mark:
+   - Action history, scrolling text within the box :ballot_box_with_check:
+6. Quit when one team wins or when quit command is typed :white_check_mark:
+7. Adventurers and enemies have vulnerabilities and resistances to certain attack types :ballot_box_with_check:
+8. Actions can apply status effects :ballot_box_with_check:
 
 ## Adventurer Subclasses
 
