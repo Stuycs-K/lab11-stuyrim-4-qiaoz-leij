@@ -168,8 +168,12 @@ public abstract class Adventurer {
   public String getConditions() {
     String output = "";
     for (Condition condition : conditions) {
-      output += condition.getName() + " " + condition.getLevel();
-      if (! condition.equals(conditions.getLast())) output += ", ";
+      if (condition.getName() == "Block") {
+        output += condition.getName() + " " + condition.getDuration() + "," + condition.getLevel();
+      } else {
+        output += condition.getName() + " " + condition.getDuration();
+      }
+      if (! condition.equals(conditions.getLast())) output += "; ";
     }
     return output;
   }

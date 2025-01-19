@@ -122,6 +122,10 @@ public class Game {
 
   public static Adventurer createRandomMob(){
     double x = Math.random();
+    String name;
+    String[] names = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", 
+                      "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"};
+    name = names[(int) (Math.random() * names.length)];
     if (x < 0.5) {
       return new SpiderSwarm();
     } else {
