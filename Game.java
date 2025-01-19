@@ -108,6 +108,15 @@ public class Game {
     }
   }
 
+  public static Adventurer createRandomMob(){
+    double x = Math.random();
+    if (x < 0.5) {
+      return new SpiderSwarm();
+    } else {
+      return new DireWolf();
+    }
+  }
+
   /*Display a List of 2-4 adventurers on the rows row through row+3 (4 rows max)
   *Should include Name HP and Special on 3 separate lines.
   *Note there is one blank row reserved for your use if you choose.
@@ -185,7 +194,11 @@ public class Game {
     //start with 1 boss and modify the code to allow 2-3 adventurers later.
     ArrayList<Adventurer>enemies = new ArrayList<Adventurer>();
     /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
+    Adventurer y = createRandomMob();
+    Adventurer z = createRandomMob();
     enemies.add(new Boss());
+    enemies.add(y);
+    enemies.add(z);
     /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
 
     //Adventurers you control:
@@ -198,6 +211,12 @@ public class Game {
     party.add(a);
     party.add(b);
     party.add(c);
+
+    for (Adventurer adventurer : enemies) {
+      adventurer.setFriends(enemies);
+      adventurer.setEnemies(party);
+    }
+
     for (Adventurer adventurer : party) {
       adventurer.setFriends(party);
       adventurer.setEnemies(enemies);

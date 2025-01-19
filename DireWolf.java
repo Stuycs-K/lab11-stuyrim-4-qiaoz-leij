@@ -6,9 +6,9 @@ public class DireWolf extends Enemies {
     public String uniqueSupport() {
         String condition = "Strengthened";
         int duration = 1;
-        for (Adventurer enemy : getEnemies()) {
-            if (enemy instanceof DireWolf) {
-                enemy.applyCondition("Strengthened", duration);
+        for (Adventurer friend : getFriends()) {
+            if (friend instanceof DireWolf) {
+                friend.applyCondition("Strengthened", duration);
             }
         }
         int n = restoreSpecial(1);
