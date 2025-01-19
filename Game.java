@@ -192,9 +192,16 @@ public class Game {
     //Make an ArrayList of Adventurers and add 2-4 Adventurers to it.
     ArrayList<Adventurer> party = new ArrayList<Adventurer>();
     /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
-    party.add(createRandomAdventurer());
-    party.add(createRandomAdventurer());
-    party.add(createRandomAdventurer());
+    Adventurer a = createRandomAdventurer();
+    Adventurer b = createRandomAdventurer();
+    Adventurer c = createRandomAdventurer();
+    party.add(a);
+    party.add(b);
+    party.add(c);
+    for (Adventurer adventurer : party) {
+      adventurer.setFriends(party);
+      adventurer.setEnemies(enemies);
+    }
     /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
 
     boolean partyTurn = true;
