@@ -5,18 +5,19 @@ public class Boss extends Enemies {
 
   @Override
   public String attack(Adventurer other) {
-    int dmg = other.applyDamage(rollDamage(10) + rollDamage(10), "Psychic");
-    restoreSpecial(1);
-    return getName() + " dealt " + dmg + " Pyschic Damage to " + other.getName() + " and restored 1 Ghastly Point!";
-  }
+    if (Utility.rollDice(2) == 1) {
+      int dmg = other.applyDamage(rollDamage(10) + rollDamage(10), "Psychic");
+      restoreSpecial(1);
+      return getName() + " dealt " + dmg + " Pyschic Damage to " + other.getName() + " and restored 1 Ghastly Point!";
+    } else {
+      other.applyCondition("Deaf", 2);
+      other.applyCondition("Blind", 2);
+      restoreSpecial(2);
+      return getName() + " applied Deaf and Blind to " + other.getName() + " for 2 turns and restored 2 Ghastly Points!";
+    }
 
-  public String attack2(Adventurer other) {
-    other.applyCondition("Deaf", 2);
-    other.applyCondition("Blind", 2);
-    restoreSpecial(2);
-    return getName() + " applied Deaf and Blind to " + other.getName() + " for 2 turns and restored 2 Ghastly Points!";
   }
-
+  
   @Override
   public String specialAttack(Adventurer other) {
     String condition = "Paralyzed";

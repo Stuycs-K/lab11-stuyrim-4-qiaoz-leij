@@ -319,11 +319,7 @@ public class Game {
         int target = (int) (Math.random() * party.size());
         switch (Utility.rollDice(10)) {
           case 1, 2, 3, 4, 5:
-            if (currentAdventurer instanceof Boss && Math.random() > 0.5) {
-              action = ((Boss) currentAdventurer).attack2(party.get(target));
-            } else {
-              action = currentAdventurer.attack(party.get(target));
-            }
+            action = currentAdventurer.attack(party.get(target));
             break;
           case 6, 7:
             if (currentAdventurer instanceof DireWolf && Math.random() > 0.7) {
