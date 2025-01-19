@@ -330,7 +330,7 @@ public class Game {
             action = currentAdventurer.attack(party.get(target));
             break;
           case 6, 7:
-            if (currentAdventurer instanceof DireWolf && Math.random() > 0.7) {
+            if (currentAdventurer instanceof DireWolf && Math.random() > 0.2) {
               action = ((DireWolf) currentAdventurer).uniqueSupport();
             } else {
               action = currentAdventurer.support();
