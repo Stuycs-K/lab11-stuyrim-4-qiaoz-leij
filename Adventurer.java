@@ -187,6 +187,9 @@ public abstract class Adventurer {
       }
       returnValue += applyDamage(Utility.rollDice(8), "Piercing") + " Piercing Damage from Bleeding";
     }
+    if (hasCondition("Paralyzed")) {
+      returnValue = getName() + " is Paralyzed";
+    }
     decreaseDurations(1);
     return returnValue + "!";
   }

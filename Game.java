@@ -28,7 +28,7 @@ public class Game {
     int row = 7;
     int neededRows = 0;
     for (String action : actions) neededRows += action.length() / (WIDTH - 2) + 1;
-    if (neededRows >= HEIGHT - 15) {
+    if (neededRows > HEIGHT - 18) {
       for (int i = 0; i < 2; i++) actions.remove(0);
     }
     for (String action : actions) {
@@ -247,18 +247,30 @@ public class Game {
     prompt("Enter command for "+party.get(whichPlayer)+": attack/special/support/quit + target index");
     actions.add("Turn 1");
     input = userInput(in);
-
+    
     while(! (input.equalsIgnoreCase("q") || input.equalsIgnoreCase("quit"))){
       //display event based on last turn's input
       if (partyTurn) {
-        int target = Integer.parseInt(input.substring(input.indexOf(" ") + 1));
+        Integer target = null;
         currentAdventurer = party.get(whichPlayer);
-        if(input.startsWith("attack") || input.startsWith("a")){
+
+        while (target == null) {
+          try {
+            target = Integer.parseInt(input.substring(input.indexOf(" ") + 1));
+          } catch (NumberFormatException e) {
+              prompt("Invalid input. Enter again: ");
+              input = userInput(in);
+          }
+        }
+        
+        if (currentAdventurer.hasCondition("Paralyzed")) {
+          action = "Can't move. Paralyzed.";
+        } 
+        else if(input.startsWith("attack ") || input.startsWith("a ")){
           /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
           while (target < 0 || target >= enemies.size()) {
             prompt("Invalid index. Enter again: ");
             input = userInput(in);
-            target = Integer.parseInt(input);
             try {
               target = Integer.parseInt(input);
             } catch (NumberFormatException e) {}
@@ -266,7 +278,7 @@ public class Game {
           action = currentAdventurer.attack(enemies.get(target));
           /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
         }
-        else if(input.startsWith("special") || input.startsWith("sp")){
+        else if(input.startsWith("special ") || input.startsWith("sp ")){
           /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
           while (target < 0 || target >= enemies.size()) {
             prompt("Invalid index. Enter again: ");
@@ -285,13 +297,16 @@ public class Game {
           while (target < 0 || target >= party.size()) {
             prompt("Invalid index. Enter again: ");
             input = userInput(in);
-            target = Integer.parseInt(input);
             try {
               target = Integer.parseInt(input);
             } catch (NumberFormatException e) {}
           }
           action = currentAdventurer.support(party.get(target));
           /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
+        } else {
+          prompt("Invalid input. Enter again: ");
+          input = userInput(in);
+          continue;
         }
         //You should decide when you want to re-ask for user input
         //If no errors:
@@ -301,6 +316,7 @@ public class Game {
         int target = (int) (Math.random() * party.size());
         switch (Utility.rollDice(10)) {
           case 1, 2, 3, 4, 5:
+          ////////////////////////////////////////////////
             action = currentAdventurer.attack(party.get(target));
             break;
           case 6, 7:
